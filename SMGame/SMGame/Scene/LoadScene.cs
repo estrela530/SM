@@ -48,7 +48,12 @@ namespace SMGame.Scene
                 {"kuribo-",path },
                 {"Title",path },
                 {"Ending",path },
-                {"backColor",path }
+                {"backColor",path },
+                {"kumo",path },
+                {"Face",path },
+                {"Body",path },
+                {"LegT",path },
+                {"LegU",path }
                 //ここから上追加
             };
 

@@ -134,6 +134,25 @@ namespace SMGame.Device
             spriteBatch.Draw(textures[name], position, Color.White * alpha);
         }
 
+        ///// <summary>
+        ///// 指定されたアセット名の絵を描く
+        ///// </summary>
+        ///// <param name="name">アセット名</param>
+        ///// <param name="position">描く位置</param>
+        ///// <param name="alpha">透明度（指定しなければそのまま1.0f）</param>
+        //public void DrawTexture(string name, Vector3 position, float alpha = 1.0f)
+        //{
+        //    // 登録されているキーがなければエラー表示
+        //    Debug.Assert(
+        //        textures.ContainsKey(name),
+        //        "アセット名を間違えていませんか？\n" +
+        //        "大文字小文字が間違ってませんか？\n" +
+        //        "LoadTextureで読み込んでますか？\n" +
+        //        "プログラムを確認してください");
+
+        //    spriteBatch.Draw(textures[name], position, Color.White * alpha);
+        //}
+
         public void DrawTexture(
             string assetName,
             Vector2 position,
