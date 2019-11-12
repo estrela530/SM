@@ -52,12 +52,13 @@ namespace SMGame
             //シーン管理生成
             sceneManager = new SceneManager();
 
-            sceneManager.Add(Scene.SceneName.LoadScene, new LoadScene());
-            //sceneManager.Add(Scene.SceneName.GameTitle, new GameTitle());
-            sceneManager.Add(Scene.SceneName.GamePlay, new GamePlay());
+            sceneManager.Add(SceneName.LoadScene, new LoadScene());
+            sceneManager.Add(SceneName.GameTitle, new GameTitle());
+            sceneManager.Add(SceneName.GamePlay, new GamePlay());
+            sceneManager.Add(SceneName.GameEnding, new GameEnding());
 
             //最初のシーンに変更
-            sceneManager.Change(Scene.SceneName.LoadScene);
+            sceneManager.Change(SceneName.LoadScene);
 
          
             // この上にロジックを記述
@@ -73,7 +74,6 @@ namespace SMGame
 
             // この下にロジックを記述
             renderer = gameDevice.GetRenderer();
-
 
             // この上にロジックを記述
         }

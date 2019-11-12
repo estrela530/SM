@@ -5,36 +5,47 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
+using SMGame.Scene;
 using SMGame.Device;
 
 namespace SMGame.Scene
 {
-    class GamePlay : IScene
+    class GameTitle : IScene
     {
-        private GameDevice gameDevice;
+        //フィールド
+        // 終了しているかどうか
         private bool IsEndFlag;
+        // サウンド
+        private Sound sound;
 
-        public GamePlay()
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public GameTitle()
         {
-            gameDevice = GameDevice.Instance();
+            IsEndFlag = false;
+            var gameDevice = GameDevice.Instance();
+            sound = gameDevice.GetSound();
 
         }
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
-
-            
-            renderer.DrawTexture("backColor", Vector2.Zero);
-
+            renderer.DrawTexture("Title", Vector2.Zero);
             renderer.End();
         }
 
-
         public void Initialize()
         {
-
+            IsEndFlag = false;
         }
 
+        /// <summary>
+        /// シーンが終了かどうか
+        /// </summary>
+        /// <returns>シーン終了ならtrue</returns>
         public bool IsEnd()
         {
             return IsEndFlag;
@@ -42,7 +53,7 @@ namespace SMGame.Scene
 
         public SceneName Next()
         {
-            return SceneName.GameEnding;
+            return SceneName.GamePlay;
         }
 
         public void Shutdown()

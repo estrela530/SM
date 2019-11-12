@@ -12,7 +12,9 @@ namespace SMGame.Scene
     enum SceneName
     {
         LoadScene,
-        GamePlay
+        GameTitle,
+        GamePlay,
+        GameEnding
     }
 
 }

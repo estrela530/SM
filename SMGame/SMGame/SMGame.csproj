@@ -51,7 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Device\Renderer.cs" />
     <Compile Include="Scene\BGMLoader.cs" />
+    <Compile Include="Scene\GameEnding.cs" />
     <Compile Include="Scene\GamePlay.cs" />
+    <Compile Include="Scene\GameTitle.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Scene\LoadScene.cs" />
     <Compile Include="Scene\SceneManager.cs" />
@@ -70,7 +72,7 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <MonoGameContentReference Include="Properties\Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup />

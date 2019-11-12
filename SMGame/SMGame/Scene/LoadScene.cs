@@ -26,7 +26,7 @@ namespace SMGame.Scene
         // 全リソース数
         private int totalResourceNum;
         // 終了フラグ
-        private bool isEndFlag;
+        private bool IsEndFlag;
         //// タイマー
         //private Timer timer;
 
@@ -39,14 +39,16 @@ namespace SMGame.Scene
         {
             // テクスチャディレクトリのデフォルトパス
             string path = "./Texture/";
-            string pathAnimation = "./Animation/";
+            //string pathAnimation = "./Animation/";
 
             // 読み込み対象データ
             string[,] data = new string[,]
-            {
-               
+            {               
                 //ここから下追加                
-                {"",path }
+                {"kuribo-",path },
+                {"Title",path },
+                {"Ending",path },
+                {"backColor",path }
                 //ここから上追加
             };
 
@@ -66,7 +68,6 @@ namespace SMGame.Scene
             // BGM読み込み対象データ
             string[,] data = new string[,]
             {
-                 { "playbgm3" ,path},
             };
 
             return data;
@@ -104,7 +105,7 @@ namespace SMGame.Scene
             textureLoader = new TextureLoader(textureMatrix());
             bgmLoader = new BGMLoader(BGMMatrix());
             seLoader = new SELoader(SEMatrix());
-            isEndFlag = false;
+            IsEndFlag = false;
 
             //// タイマー生成
             //timer = new CountDownTimer(0.1f);
@@ -154,7 +155,7 @@ namespace SMGame.Scene
             bgmLoader.IsEnd() &&
             seLoader.IsEnd())
             {
-                isEndFlag = true;
+                IsEndFlag = true;
             }
 
             // End
@@ -167,7 +168,7 @@ namespace SMGame.Scene
         public void Initialize()
         {
             // 終了フラグを継続に設定
-            isEndFlag = false;
+            IsEndFlag = false;
             // テクスチャ読み込みオブジェクトを初期化
             textureLoader.Initialize();
             // BGM読み込みオブジェクトを初期化
@@ -187,7 +188,7 @@ namespace SMGame.Scene
         /// <returns>シーン終了ならtrue</returns>
         public bool IsEnd()
         {
-            return isEndFlag;
+            return IsEndFlag;
         }
 
         /// <summary>
@@ -238,7 +239,7 @@ namespace SMGame.Scene
 
         public SceneName Next()
         {
-            return SceneName.GamePlay;
+            return SceneName.GameTitle;
         }
     }
 }
