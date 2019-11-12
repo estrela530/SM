@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMGame", "SMGame\SMGame.csproj", "{EE5F820E-69E8-4745-98F4-B59B20CFB596}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE5F820E-69E8-4745-98F4-B59B20CFB596}.Debug|x86.ActiveCfg = Debug|x86
+		{EE5F820E-69E8-4745-98F4-B59B20CFB596}.Debug|x86.Build.0 = Debug|x86
+		{EE5F820E-69E8-4745-98F4-B59B20CFB596}.Release|x86.ActiveCfg = Release|x86
+		{EE5F820E-69E8-4745-98F4-B59B20CFB596}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {349A05E1-65CC-4F06-BB1B-D98A7AA193B7}
+	EndGlobalSection
+EndGlobal
