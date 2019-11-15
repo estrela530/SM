@@ -8,5 +8,6 @@ namespace SMGame.Character.Legs
 {
     class Leg1
     {
+
     }
 }
