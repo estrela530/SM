@@ -53,7 +53,8 @@ namespace SMGame.Scene
                 {"Face",path },
                 {"Body",path },
                 {"LegT",path },
-                {"LegU",path }
+                {"LegU",path },
+                {"PlayerTatie",path }
                 //ここから上追加
             };
 

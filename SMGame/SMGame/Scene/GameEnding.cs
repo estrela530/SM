@@ -77,7 +77,7 @@ namespace SMGame.Scene
         /// <param name="gameTime">ゲーム時間</param>
         public void Update(GameTime gameTime)
         {
-            if (Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One, Buttons.Start))
             {
                 IsEndFlag = true;
             }
