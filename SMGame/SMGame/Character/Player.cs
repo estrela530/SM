@@ -18,7 +18,8 @@ namespace SMGame.Character
         public int height;
         public float moveSpeed = 7.0f;
         public int HP;
-        public bool IsJumpFlag = false;
+        public float AttackPower;
+        public bool IsJumpFlag = false;    
 
         public Player(Vector2 position, GameDevice gameDevice, int width, int height)
         {
@@ -79,5 +80,13 @@ namespace SMGame.Character
             }            
         }
         
+        public void NormalAttack()
+        {
+            if (Input.IsButtonDown(PlayerIndex.One,Buttons.X))
+            {
+                
+            }
+        }
+
     }
 }
