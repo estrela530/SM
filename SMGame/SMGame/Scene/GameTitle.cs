@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using SMGame.Scene;
 using SMGame.Device;
+using SMGame.Character.Legs;
 
 namespace SMGame.Scene
 {
@@ -18,7 +19,7 @@ namespace SMGame.Scene
         private bool IsEndFlag;
         // サウンド
         private Sound sound;
-
+        private Leg1 leg;
 
         /// <summary>
         /// コンストラクタ
@@ -29,11 +30,14 @@ namespace SMGame.Scene
             var gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
 
+            leg = new Leg1();
+
         }
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
             renderer.DrawTexture("Title", Vector2.Zero);
+            leg.Draw(renderer);
             renderer.End();
         }
 
@@ -63,7 +67,8 @@ namespace SMGame.Scene
 
         public void Update(GameTime gameTime)
         {
-            if (Input.GetKeyTrigger(Keys.Space))
+            leg.Update(gameTime);
+            if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One,Buttons.Start))
             {
                 IsEndFlag = true;
             }
