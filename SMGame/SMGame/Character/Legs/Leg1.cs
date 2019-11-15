@@ -15,8 +15,8 @@ namespace SMGame.Character.Legs
         /// <summary>
         /// フィールド
         /// </summary>
-        private Vector2  axis, scale;
-        private Single rotate;
+        private Vector2 axis, scale;
+        private float rotate;
         private bool isAttack;
 
         public Leg1()
@@ -24,7 +24,7 @@ namespace SMGame.Character.Legs
         {
             scale = new Vector2(1.0f);
             axis = new Vector2(20, 115);
-            position = new Vector2(Screen.Width,Screen.Height);
+            position = new Vector2(Screen.Width / 2, Screen.Height / 2);
         }
         public override void Initialize()
         {
@@ -37,15 +37,15 @@ namespace SMGame.Character.Legs
         }
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture("LegU",position,rotate,axis,scale);
-            //renderer.DrawTexture("LegU", position);
+            renderer.DrawTexture("LegU", position + axis, rotate, axis, scale);
+            renderer.DrawTexture("LegU", position);
         }
 
         public void Attack()
         {
             if (isAttack == false)
             {
-                rotate += 0.1f; 
+                rotate += 0.1f;
             }
             if (isAttack == true)
             {

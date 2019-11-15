@@ -19,7 +19,7 @@ namespace SMGame.Scene
         private bool IsEndFlag;
         // サウンド
         private Sound sound;
-        private Leg1 leg;
+        private Leg2 leg;
 
         /// <summary>
         /// コンストラクタ
@@ -30,7 +30,7 @@ namespace SMGame.Scene
             var gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
 
-            leg = new Leg1();
+            leg = new Leg2();
 
         }
         public void Draw(Renderer renderer)
