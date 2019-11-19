@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SMGame.Device;
 using SMGame.Character;
+using SMGame.Def;
 
 namespace SMGame.Scene
 {
@@ -20,8 +21,8 @@ namespace SMGame.Scene
         private Player player;
 
         //数値系　
-        public Vector2 bossFirstPosition = new Vector2(600, 450);
-        public Vector2 playerFirstPosition = new Vector2(200, 800);
+        public Vector2 bossFirstPosition = new Vector2(Screen.Width / 2, Screen.Height -600);
+        public Vector2 playerFirstPosition = new Vector2(Screen.Width / 4, Screen.Height - 128);
         
         public GamePlay()
         {
@@ -33,8 +34,8 @@ namespace SMGame.Scene
         {
             IsEndFlag = false;
 
-            boss = new Boss(bossFirstPosition, gameDevice, 64, 64);
-            player = new Player(playerFirstPosition, gameDevice, 64, 64);
+            boss = new Boss(bossFirstPosition, gameDevice, 600, 600);
+            player = new Player(playerFirstPosition, gameDevice, 128, 128,boss);
         }
 
         public void Draw(Renderer renderer)

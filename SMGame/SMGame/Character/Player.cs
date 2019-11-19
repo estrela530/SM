@@ -20,6 +20,17 @@ namespace SMGame.Character
         public float AttackPower;
         public bool IsJumpFlag = false;
         private Motion motion;
+        private int width;
+        private int height;
+        private int attackPosition = 73;
+        private int attackArea = 55;
+        private Boss boss;
+        private bool HitFlag = false;
+
+        /// <summary>
+        /// ベクトルの向きを管理（true->右、false->左）
+        /// </summary>
+        public bool vecterFlag;
 
         /// <summary>
         /// コンストラクタ
@@ -28,9 +39,12 @@ namespace SMGame.Character
         /// <param name="gameDevice"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Player(Vector2 position, GameDevice gameDevice, int width, int height)
+        public Player(Vector2 position, GameDevice gameDevice, int width, int height, Boss boss)
         {
             this.position = position;
+            this.width = width;
+            this.height = height;
+            this.boss = boss;
 
             #region アニメーション関連
             //アニメーション設定
@@ -40,7 +54,7 @@ namespace SMGame.Character
 
             for (int i = 0; i < 4; i++)
             {
-                motion.Add(i, new Rectangle(32 * i, 0, 32, 32));
+                motion.Add(i, new Rectangle(128 * i, 0, 128, 128));
             }
             #endregion
         }
@@ -51,6 +65,7 @@ namespace SMGame.Character
         public void Initialize()
         {
             IsJumpFlag = false;
+            vecterFlag = true;
         }
 
         /// <summary>
@@ -71,8 +86,16 @@ namespace SMGame.Character
             PlayerMove();
             PlayerJump();
             GroundHit();
+            NormalAttack();
+            Console.WriteLine("HitFlag = " + HitFlag);
 
-            position = position + velocity;
+            if (HitFlag == true)
+            {
+                velocity = Vector2.Zero;
+            }
+
+            position += velocity;
+
         }
 
         /// <summary>
@@ -81,8 +104,6 @@ namespace SMGame.Character
         public void PlayerMove()
         {
             velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed;
-
-            //position = position + velocity;
         }
 
         /// <summary>
@@ -116,19 +137,75 @@ namespace SMGame.Character
                 velocity.Y = 0.0f;
                 position.Y = Screen.Height - 180;
                 IsJumpFlag = false;
-            }            
+            }
         }
-        
+
         /// <summary>
         /// 通常攻撃
         /// </summary>
         public void NormalAttack()
         {
-            if (Input.IsButtonDown(PlayerIndex.One,Buttons.RightShoulder))
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
             {
-                
+                if (NormalCollision(boss))
+                {
+                    HitFlag = true;
+                    AttackHit(boss);
+                    boss.NormalCollision(this);
+                }
             }
         }
+
+        /// <summary>
+        /// 幅関連の当たり判定
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle GetRectangle()
+        {
+            Rectangle rect = new Rectangle();
+
+            rect.X = (int)position.X;
+            rect.Y = (int)position.Y;
+            rect.Width = width;
+            rect.Height = height;
+
+            return rect;
+        }
+
+        /// <summary>
+        /// 攻撃関連の当たり判定
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle GetAttackRectangle()
+        {
+            Rectangle attackRect = new Rectangle();
+
+            attackRect.X = (int)position.X + attackPosition;
+            attackRect.Y = (int)position.Y;
+            attackRect.Width = attackArea;
+            attackRect.Height = height;
+
+            return attackRect;
+        }
+
+        /// <summary>
+        /// 通常当たり判定
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool NormalCollision(Boss other)
+        {
+            return this.GetRectangle().Intersects(other.GetRectangle());
+        }
+
+        /// <summary>
+        /// 攻撃時当たり判定
+        /// </summary>
+        public bool AttackHit(Boss other)
+        {
+            return this.GetAttackRectangle().Intersects(other.GetRectangle());
+        }
+
 
     }
 }

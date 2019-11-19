@@ -16,10 +16,14 @@ namespace SMGame.Character
         private float MoveSpeed = 0.5f;
         private float seconds;
         private Vector2 position;
+        private int width;
+        private int height;
 
         public Boss(Vector2 position, GameDevice gameDevice, int Width, int Height)
         {
             this.position = position;
+            this.width = Width;
+            this.height = Height;
             Hp = 100;
             AttackPower = 10;
         }
@@ -61,5 +65,32 @@ namespace SMGame.Character
 
             }
         }
+
+        /// <summary>
+        /// 幅関連の当たり判定
+        /// </summary>
+        /// <returns></returns>
+        public Rectangle GetRectangle()
+        {
+            Rectangle rect = new Rectangle();
+
+            rect.X = (int)position.X;
+            rect.Y = (int)position.Y;
+            rect.Width = width;
+            rect.Height = height;
+
+            return rect;
+        }
+
+        /// <summary>
+        /// 通常当たり判定
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool NormalCollision(Player other)
+        {
+            return this.GetRectangle().Intersects(other.GetRectangle());
+        }
+
     }
 }
