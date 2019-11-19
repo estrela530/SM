@@ -70,6 +70,10 @@
     <Compile Include="Scene\SceneName.cs" />
     <Compile Include="Scene\SELoader.cs" />
     <Compile Include="Scene\TextureLoader.cs" />
+    <Compile Include="Util\CountDownTimer.cs" />
+    <Compile Include="Util\Motion.cs" />
+    <Compile Include="Util\Range.cs" />
+    <Compile Include="Util\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
