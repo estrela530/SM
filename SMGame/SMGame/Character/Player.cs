@@ -16,7 +16,7 @@ namespace SMGame.Character
         private Vector2 position;
         private Vector2 velocity;
         public float moveSpeed = 7.0f;
-        public int HP;
+        public float Hp;
         public float AttackPower;
         public bool IsJumpFlag = false;
         private Motion motion;
@@ -45,7 +45,8 @@ namespace SMGame.Character
             this.width = width;
             this.height = height;
             this.boss = boss;
-
+            Hp = 100;
+            AttackPower = 10;
             #region アニメーション関連
             //アニメーション設定
             motion = new Motion(
@@ -164,7 +165,7 @@ namespace SMGame.Character
                 {
                     HitFlag = true;
                     boss.NormalCollision(this);
-                    boss.ReceiveDamege();
+                    boss.ReceiveDamege(this);
                 }
             
             }

@@ -10,8 +10,8 @@ namespace SMGame.Character
 {
     class Boss : IChara
     {
-        public int Hp;
-        private int AttackPower;
+        public float Hp;
+        private float AttackPower;
         private Vector2 velocity = new Vector2(0, 1);
         private float MoveSpeed = 0.5f;
         private float seconds;
@@ -109,9 +109,9 @@ namespace SMGame.Character
             return this.GetRectangle().Intersects(other.GetRectangle());
         }
 
-        public void ReceiveDamege()
+        public void ReceiveDamege(Player player)
         {
-            Hp -= 10;
+            Hp -= player.AttackPower;
         }
 
         public bool IsDead()
