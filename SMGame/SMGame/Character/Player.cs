@@ -25,7 +25,14 @@ namespace SMGame.Character
         private int attackPosition = 73;
         private int attackArea = 55;
         private Boss boss;
-        private bool HitFlag = false;
+        private bool AttackHitFlag = false;
+        private bool ComboFlag = false;
+        public int comboCount = 0;
+
+        /// <summary>
+        /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
+        /// </summary>
+        private int weakAttackCounter;
 
         /// <summary>
         /// ベクトルの向きを管理（true->右、false->左）
@@ -47,6 +54,7 @@ namespace SMGame.Character
             this.boss = boss;
             Hp = 100;
             AttackPower = 10;
+            weakAttackCounter = 0;
             #region アニメーション関連
             //アニメーション設定
             motion = new Motion(
@@ -67,6 +75,9 @@ namespace SMGame.Character
         {
             IsJumpFlag = false;
             vecterFlag = true;
+            weakAttackCounter = 0;
+            ComboFlag = false;
+            comboCount = 0;
         }
 
         /// <summary>
@@ -90,11 +101,13 @@ namespace SMGame.Character
             NormalAttack();
 
             #region Debug確認用
-            Console.WriteLine("HitFlag = " + HitFlag);
-
+            Console.WriteLine("HitFlag = " + AttackHitFlag);
+            Console.WriteLine("weakAttackCounter" + weakAttackCounter);
+            Console.WriteLine("ComboFlag = " + ComboFlag);
+            Console.WriteLine("ComboCount= " + comboCount);
             #endregion
 
-            if (HitFlag == true)
+            if (AttackHitFlag && comboCount != 0)
             {
                 velocity = Vector2.Zero;
             }
@@ -150,25 +163,187 @@ namespace SMGame.Character
         /// </summary>
         public void NormalAttack()
         {
-            if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
-            {
-                #region 確認用
-                //if (NormalCollision(boss))
-                //{
-                //    HitFlag = true;
-                //    AttackHit(boss);
-                //    boss.NormalCollision(this);
-                //}
-                #endregion
 
-                if (AttackHit(boss))
-                {
-                    HitFlag = true;
-                    boss.NormalCollision(this);
-                    boss.ReceiveDamege(this);
-                }
-            
+            if (comboCount >= 0 && comboCount <= 3 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            {
+                ComboFlag = true;
+                comboCount++;
             }
+
+            if (ComboFlag)
+            {
+                weakAttackCounter++;
+                switch (comboCount)
+                {
+                    //0.5秒以内に
+                    case 1:
+                        if (AttackHit(boss))
+                        {
+                            AttackHitFlag = true;
+                            boss.NormalCollision(this);
+                            boss.ReceiveDamege(this);
+                        }
+                        if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+                        {
+                            weakAttackCounter = 0;
+                            comboCount++;
+                        }
+                        if (weakAttackCounter > 60)
+                        {
+                            weakAttackCounter = 0;
+                            comboCount = 0;
+                            ComboFlag = false;
+                        }
+                        break;
+
+                    case 2:
+
+                        if (AttackHit(boss))
+                        {
+                            AttackHitFlag = true;
+                            boss.NormalCollision(this);
+                            boss.ReceiveDamege(this);
+                        }
+                        if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+                        {
+                            weakAttackCounter = 0;
+                            comboCount++;
+                        }
+                        if (weakAttackCounter > 60)
+                        {
+                            weakAttackCounter = 0;
+                            comboCount = 0;
+                            ComboFlag = false;
+                        }
+                        break;
+
+                    case 3:
+
+                        if (AttackHit(boss))
+                        {
+                            AttackHitFlag = true;
+                            boss.NormalCollision(this);
+                            boss.ReceiveDamege(this);
+                        }
+                        if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+                        {
+                            weakAttackCounter = 0;
+                            comboCount = 4;
+                        }
+                        if (weakAttackCounter > 60)
+                        {
+                            weakAttackCounter = 0;
+                            comboCount = 0;
+                            ComboFlag = false;
+                        }
+                        break;
+
+                    case 4:
+
+                        if (AttackHit(boss))
+                        {
+                            AttackHitFlag = true;
+                            boss.NormalCollision(this);
+                            boss.ReceiveDamege(this);
+                        }
+                        if (weakAttackCounter >= 0 && weakAttackCounter >= 120)
+                        {
+                            weakAttackCounter = 0;
+                            comboCount = 0;
+                            ComboFlag = false;
+                        }
+                        break;
+                    case 0:
+                        break;
+                }
+            }
+
+
+
+
+
+
+
+
+
+            #region　攻撃隠し隠し
+            ////N1
+            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            //{
+            //    if (AttackHit(boss))
+            //    {
+            //        AttackHitFlag = true;
+            //        boss.NormalCollision(this);
+            //        boss.ReceiveDamege(this);
+            //        ComboFlag = true;
+            //    }
+            //    weakAttackCounter++;
+
+            //    if (weakAttackCounter > 30)
+            //    {
+            //        weakAttackCounter = 0;
+
+            //        ComboFlag = false;
+            //    }
+            //}
+            ////N2
+            //else if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder) && ComboFlag == true)
+            //{
+            //    weakAttackCounter = 0;
+            //    if (AttackHit(boss))
+            //    {
+            //        AttackHitFlag = true;
+            //        boss.NormalCollision(this);
+            //        boss.ReceiveDamege(this);
+            //    }
+            //    weakAttackCounter++;
+
+            //    if (weakAttackCounter > 30)
+            //    {
+            //        weakAttackCounter = 0;
+
+            //        ComboFlag = false;
+            //    }
+            //}
+            ////N3
+            //else if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder) && ComboFlag == true)
+            //{
+            //    weakAttackCounter = 0;
+            //    if (AttackHit(boss))
+            //    {
+            //        AttackHitFlag = true;
+            //        boss.NormalCollision(this);
+            //        boss.ReceiveDamege(this);
+            //    }
+            //    weakAttackCounter++;
+
+            //    if (weakAttackCounter > 30)
+            //    {
+            //        weakAttackCounter = 0;
+
+            //        ComboFlag = false;
+            //    }
+            //}
+            ////N4
+            //else if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder) && ComboFlag == true)
+            //{
+            //    weakAttackCounter = 0;
+            //    if (AttackHit(boss))
+            //    {
+            //        AttackHitFlag = true;
+            //        boss.NormalCollision(this);
+            //        boss.ReceiveDamege(this);
+            //    }
+            //    weakAttackCounter++;
+
+            //    if (weakAttackCounter > 30)
+            //    {
+            //        weakAttackCounter = 0;
+
+            //        ComboFlag = false;
+            //    }
+            //}
+            #endregion
         }
 
         /// <summary>

@@ -56,7 +56,6 @@ namespace SMGame.Character
 
             #region Debug確認用
             Console.WriteLine("Boss.Hp = " + Hp);
-            Console.WriteLine("IsDeadFlag = " + IsDeadFlag);
             #endregion
 
             if (Hp <= 0)
