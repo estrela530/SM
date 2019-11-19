@@ -16,5 +16,6 @@ namespace SMGame.Character
 
         void Draw(Renderer renderer);
 
+        bool IsDead();
     }
 }

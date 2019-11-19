@@ -10,7 +10,7 @@ namespace SMGame.Character
 {
     class Boss : IChara
     {
-        private int Hp;
+        public int Hp;
         private int AttackPower;
         private Vector2 velocity = new Vector2(0, 1);
         private float MoveSpeed = 0.5f;
@@ -18,6 +18,8 @@ namespace SMGame.Character
         private Vector2 position;
         private int width;
         private int height;
+        public Player player;
+        public bool IsDeadFlag;
 
         public Boss(Vector2 position, GameDevice gameDevice, int Width, int Height)
         {
@@ -26,6 +28,7 @@ namespace SMGame.Character
             this.height = Height;
             Hp = 100;
             AttackPower = 10;
+            IsDeadFlag = false;
         }
 
 
@@ -34,11 +37,14 @@ namespace SMGame.Character
             Hp = 100;
             AttackPower = 10;
             seconds = 0;
-
+            IsDeadFlag = false;
         }
         public void Draw(Renderer renderer)
         {
-            renderer.DrawTexture("kumo", position);
+            if (IsDeadFlag != true)
+            {
+                renderer.DrawTexture("kumo", position);
+            }
         }
 
 
@@ -46,10 +52,21 @@ namespace SMGame.Character
         {
             seconds += 10/* / 60*/;
 
-            IdoleMove();
+            IdleMove();
+
+            #region Debug確認用
+            Console.WriteLine("Boss.Hp = " + Hp);
+            Console.WriteLine("IsDeadFlag = " + IsDeadFlag);
+            #endregion
+
+            if (Hp <= 0)
+            {
+                IsDeadFlag = true;
+            }
+
         }
 
-        public void IdoleMove()
+        public void IdleMove()
         {
             if (seconds >= 0 && seconds < 1000)
             {
@@ -91,6 +108,17 @@ namespace SMGame.Character
         {
             return this.GetRectangle().Intersects(other.GetRectangle());
         }
+
+        public void ReceiveDamege()
+        {
+            Hp -= 10;
+        }
+
+        public bool IsDead()
+        {
+            return IsDeadFlag;
+        }
+
 
     }
 }

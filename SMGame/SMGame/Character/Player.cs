@@ -87,7 +87,11 @@ namespace SMGame.Character
             PlayerJump();
             GroundHit();
             NormalAttack();
+
+            #region Debug確認用
             Console.WriteLine("HitFlag = " + HitFlag);
+
+            #endregion
 
             if (HitFlag == true)
             {
@@ -147,12 +151,22 @@ namespace SMGame.Character
         {
             if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
             {
-                if (NormalCollision(boss))
+                #region 確認用
+                //if (NormalCollision(boss))
+                //{
+                //    HitFlag = true;
+                //    AttackHit(boss);
+                //    boss.NormalCollision(this);
+                //}
+                #endregion
+
+                if (AttackHit(boss))
                 {
                     HitFlag = true;
-                    AttackHit(boss);
                     boss.NormalCollision(this);
+                    boss.ReceiveDamege();
                 }
+            
             }
         }
 

@@ -21,9 +21,9 @@ namespace SMGame.Scene
         private Player player;
 
         //数値系　
-        public Vector2 bossFirstPosition = new Vector2(Screen.Width / 2, Screen.Height -600);
+        public Vector2 bossFirstPosition = new Vector2(Screen.Width / 2, Screen.Height - 600);
         public Vector2 playerFirstPosition = new Vector2(Screen.Width / 4, Screen.Height - 128);
-        
+
         public GamePlay()
         {
             gameDevice = GameDevice.Instance();
@@ -35,7 +35,7 @@ namespace SMGame.Scene
             IsEndFlag = false;
 
             boss = new Boss(bossFirstPosition, gameDevice, 600, 600);
-            player = new Player(playerFirstPosition, gameDevice, 128, 128,boss);
+            player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
         }
 
         public void Draw(Renderer renderer)
@@ -43,6 +43,7 @@ namespace SMGame.Scene
             renderer.Begin();
 
             renderer.DrawTexture("backColor", Vector2.Zero);
+
             boss.Draw(renderer);
             player.Draw(renderer);
 
@@ -71,7 +72,7 @@ namespace SMGame.Scene
             boss.Update(gameTime);
             player.Update(gameTime);
 
-            if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One,Buttons.Start))
+            if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One, Buttons.Start))
             {
                 IsEndFlag = true;
             }
