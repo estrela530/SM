@@ -101,6 +101,7 @@ namespace SMGame.Scene
                {"damage",path },
                {"destruction1",path },
                {"run",path },
+               {"avoid",path },
             };
 
             return data;

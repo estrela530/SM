@@ -193,3 +193,9 @@
 /processorParam:Quality=Best
 /build:Sound/run.wav
 
+#begin Sound/avoid.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/avoid.wav
+
