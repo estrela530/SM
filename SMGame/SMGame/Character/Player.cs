@@ -34,6 +34,9 @@ namespace SMGame.Character
         public int avoidCoolTime;
         private Vector2 currentPosition;
         private Vector2 previousPosition;
+        private Rectangle rectangle;
+        //public float alpha = 1 / 25f;
+        public float alpha = 1;
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -61,6 +64,7 @@ namespace SMGame.Character
             Hp = 100;
             AttackPower = 10;
             weakAttackCounter = 0;
+            rectangle = new Rectangle(0, 0, 30, 128);
             #region アニメーション関連
             //アニメーション設定
             motion = new Motion(
@@ -104,10 +108,11 @@ namespace SMGame.Character
             NormalAttack();
             PlayerAvoid();
             #region Debug確認用
-            Console.WriteLine("HitFlag = " + AttackHitFlag);
-            Console.WriteLine("weakAttackCounter" + weakAttackCounter);
-            Console.WriteLine("ComboFlag = " + ComboFlag);
-            Console.WriteLine("ComboCount= " + comboCount);
+            //Console.WriteLine("HitFlag = " + AttackHitFlag);
+            //Console.WriteLine("weakAttackCounter" + weakAttackCounter);
+            //Console.WriteLine("ComboFlag = " + ComboFlag);
+            //Console.WriteLine("ComboCount= " + comboCount);
+            //Console.WriteLine("alpha = " + alpha);
             #endregion
 
             if (AttackHitFlag && comboCount != 0)
@@ -117,7 +122,11 @@ namespace SMGame.Character
 
             position += velocity;
 
-
+            if (avoidCoolTime > 20)
+            {
+                alpha = 1;
+                AvoidFlag = false;
+            }
         }
 
         /// <summary>
@@ -128,10 +137,25 @@ namespace SMGame.Character
         {
             renderer.DrawTexture("PlayerTatie", position);
 
-            if (AvoidFlag && avoidCoolTime <= 12)
+            if (AvoidFlag && avoidCoolTime <= 20 /*|| true*/)
             {
-                renderer.DrawTexture("Avoid2", currentPosition);
+                //renderer.DrawTexture("Avoid2", currentPosition);
+
+                float a = 355;
+                int x = 0;
+                Rectangle rect;
+                for (int i = 0; i < 20; i++)
+                {
+                    alpha -= i / 15;
+                    rect = new Rectangle(0, 0, x, 128);
+                    renderer.DrawTexture("Avoid2", currentPosition + new Vector2(50 + a, 0), new Vector2(a, 0), rect, alpha);
+                    x += 18 * i;
+
+                    Console.WriteLine("alpha = " + alpha);
+
+                }
             }
+
         }
 
 
@@ -150,7 +174,7 @@ namespace SMGame.Character
         {
             avoidCoolTime++;
 
-            if (Input.IsButtonDown(PlayerIndex.One, Buttons.Y))
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.Y) && AvoidFlag == false)
             {
                 //velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed * avoidSpeed;
                 avoidCoolTime = 0;
@@ -175,10 +199,16 @@ namespace SMGame.Character
             }
             else
             {
+
                 //ジャンプ中だけ落下
                 velocity.Y = velocity.Y + 0.4f;
+
                 //落下速度制限
                 velocity.Y = (velocity.Y > 16.0f) ? (16.0f) : (velocity.Y);
+            }
+            if (avoidCoolTime <= 6)
+            {
+                velocity.Y = 0.0f;
             }
         }
 
