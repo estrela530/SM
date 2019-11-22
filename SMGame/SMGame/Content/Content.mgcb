@@ -157,3 +157,39 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Avoid2.png
 
+#begin Sound/attack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/attack.wav
+
+#begin Sound/attackS.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/attackS.wav
+
+#begin Sound/damage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/damage.wav
+
+#begin Sound/destruction1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/destruction1.wav
+
+#begin Sound/final_attack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/final_attack.wav
+
+#begin Sound/run.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/run.wav
+

@@ -68,6 +68,10 @@ namespace SMGame.Scene
         public void Update(GameTime gameTime)
         {
             leg.Update(gameTime);
+            //if(Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            //{
+            //    sound.PlaySE("run");
+            //}
             if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One,Buttons.Start))
             {
                 IsEndFlag = true;

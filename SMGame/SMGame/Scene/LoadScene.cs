@@ -95,7 +95,12 @@ namespace SMGame.Scene
             // SE読み込み対象データ
             string[,] data = new string[,]
             {
-
+               {"attack",path },
+               {"final_attack",path },
+               {"attackS",path },
+               {"damage",path },
+               {"destruction1",path },
+               {"run",path },
             };
 
             return data;
