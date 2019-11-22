@@ -54,7 +54,9 @@ namespace SMGame.Scene
                 {"Body",path },
                 {"LegT",path },
                 {"LegU",path },
-                {"PlayerTatie",path }
+                {"PlayerTatie",path },
+                {"Avoid",path },
+                {"Avoid2",path }
                 //ここから上追加
             };
 

@@ -28,6 +28,12 @@ namespace SMGame.Character
         private bool AttackHitFlag = false;
         private bool ComboFlag = false;
         public int comboCount = 0;
+        private bool AvoidFlag = false;
+        public float avoidSpeed = 340.0f;
+        public float avoidDrawPosition;
+        public int avoidCoolTime;
+        private Vector2 currentPosition;
+        private Vector2 previousPosition;
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -78,16 +84,13 @@ namespace SMGame.Character
             weakAttackCounter = 0;
             ComboFlag = false;
             comboCount = 0;
+            AvoidFlag = false;
+            avoidCoolTime = 0;
+            avoidDrawPosition = avoidSpeed + 200.0f;
+            currentPosition = Vector2.Zero;
+            previousPosition = Vector2.Zero;
         }
 
-        /// <summary>
-        /// 描画
-        /// </summary>
-        /// <param name="renderer"></param>
-        public void Draw(Renderer renderer)
-        {
-            renderer.DrawTexture("PlayerTatie", position);
-        }
 
         /// <summary>
         /// 更新
@@ -99,7 +102,7 @@ namespace SMGame.Character
             PlayerJump();
             GroundHit();
             NormalAttack();
-
+            PlayerAvoid();
             #region Debug確認用
             Console.WriteLine("HitFlag = " + AttackHitFlag);
             Console.WriteLine("weakAttackCounter" + weakAttackCounter);
@@ -114,7 +117,23 @@ namespace SMGame.Character
 
             position += velocity;
 
+
         }
+
+        /// <summary>
+        /// 描画
+        /// </summary>
+        /// <param name="renderer"></param>
+        public void Draw(Renderer renderer)
+        {
+            renderer.DrawTexture("PlayerTatie", position);
+
+            if (AvoidFlag && avoidCoolTime <= 12)
+            {
+                renderer.DrawTexture("Avoid2", currentPosition);
+            }
+        }
+
 
         /// <summary>
         /// プレイヤー移動
@@ -122,6 +141,24 @@ namespace SMGame.Character
         public void PlayerMove()
         {
             velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed;
+        }
+
+        /// <summary>
+        /// プレイヤー回避
+        /// </summary>
+        public void PlayerAvoid()
+        {
+            avoidCoolTime++;
+
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.Y))
+            {
+                //velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed * avoidSpeed;
+                avoidCoolTime = 0;
+                AvoidFlag = true;
+                previousPosition = currentPosition;
+                currentPosition = position;
+                position = new Vector2(position.X + avoidSpeed, position.Y);
+            }
         }
 
         /// <summary>
