@@ -108,16 +108,38 @@ namespace SMGame.Character
             return this.GetRectangle().Intersects(other.GetRectangle());
         }
 
-        public void ReceiveDamege(Player player)
+        /// <summary>
+        /// 通常攻撃に対するダメージメソッド
+        /// </summary>
+        /// <param name="player"></param>
+        public void ReceiveDamage(Player player)
         {
             Hp -= player.AttackPower;
         }
+
+        /// <summary>
+        /// スキル①攻撃に対するダメージメソッド
+        /// </summary>
+        /// <param name="player"></param>
+        public void Skill1ReceiveDamage(Player player)
+        {
+            Hp -= player.skill1Power;
+        }
+
+        /// <summary>
+        /// スキル②攻撃に対するダメージメソッド
+        /// </summary>
+        /// <param name="player"></param>
+        public void Skill2ReceiveDamage(Player player)
+        {
+            Hp -= player.skill2Power;
+        }
+
 
         public bool IsDead()
         {
             return IsDeadFlag;
         }
-
-
+      
     }
 }

@@ -37,6 +37,12 @@ namespace SMGame.Character
         private Rectangle rectangle;
         //public float alpha = 1 / 25f;
         public float alpha = 1;
+        private Sound sound;
+        private int seconds = 0;
+        public int skill1Power = 20;
+        public int skill2Power = 30;
+        public int whichSkillCheck = 0;
+        public bool IsSkillHitFlag = false;
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -65,6 +71,9 @@ namespace SMGame.Character
             AttackPower = 10;
             weakAttackCounter = 0;
             rectangle = new Rectangle(0, 0, 30, 128);
+            gameDevice = GameDevice.Instance();
+            sound = gameDevice.GetSound();
+
             #region アニメーション関連
             //アニメーション設定
             motion = new Motion(
@@ -93,6 +102,9 @@ namespace SMGame.Character
             avoidDrawPosition = avoidSpeed + 200.0f;
             currentPosition = Vector2.Zero;
             previousPosition = Vector2.Zero;
+            seconds = 0;
+            whichSkillCheck = 0;
+            IsSkillHitFlag = false;
         }
 
 
@@ -102,6 +114,7 @@ namespace SMGame.Character
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
+
             PlayerMove();
             PlayerJump();
             GroundHit();
@@ -165,6 +178,23 @@ namespace SMGame.Character
         public void PlayerMove()
         {
             velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed;
+
+            if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
+            {
+                seconds++;
+            }
+            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0 || seconds >= 180)
+            {
+                seconds = 0;
+            }
+
+            if (seconds > 0 && seconds <= 180)
+            {
+                if (seconds == 1)
+                {
+                    sound.PlaySE("run");
+                }
+            }
         }
 
         /// <summary>
@@ -182,6 +212,7 @@ namespace SMGame.Character
                 previousPosition = currentPosition;
                 currentPosition = position;
                 position = new Vector2(position.X + avoidSpeed, position.Y);
+                sound.PlaySE("avoid");
             }
         }
 
@@ -230,7 +261,7 @@ namespace SMGame.Character
         /// </summary>
         public void NormalAttack()
         {
-
+            //Console.WriteLine("comboCnt" + comboCount);
             if (comboCount >= 0 && comboCount <= 3 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
             {
                 ComboFlag = true;
@@ -246,12 +277,15 @@ namespace SMGame.Character
                     case 1:
                         if (AttackHit(boss))
                         {
+                            Console.WriteLine("N1入った！");
+                            Console.WriteLine("comboCnt" + comboCount);
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamege(this);
+                            boss.ReceiveDamage(this);
                         }
                         if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
+                            Console.WriteLine("わーーーーーーーーーーー");
                             weakAttackCounter = 0;
                             comboCount++;
                         }
@@ -264,12 +298,13 @@ namespace SMGame.Character
                         break;
 
                     case 2:
-
-                        if (AttackHit(boss))
+                        if (AttackHit(boss) && weakAttackCounter == 1)
                         {
+                            Console.WriteLine("N2入った！");
+                            Console.WriteLine("わーーーーーーーーーーー");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamege(this);
+                            boss.ReceiveDamage(this);
                         }
                         if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
@@ -285,12 +320,12 @@ namespace SMGame.Character
                         break;
 
                     case 3:
-
-                        if (AttackHit(boss))
+                        if (AttackHit(boss) && weakAttackCounter == 1)
                         {
+                            Console.WriteLine("N3入った！");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamege(this);
+                            boss.ReceiveDamage(this);
                         }
                         if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
@@ -306,12 +341,12 @@ namespace SMGame.Character
                         break;
 
                     case 4:
-
-                        if (AttackHit(boss))
+                        if (AttackHit(boss) && weakAttackCounter == 1)
                         {
+                            Console.WriteLine("N4入った！");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamege(this);
+                            boss.ReceiveDamage(this);
                         }
                         if (weakAttackCounter >= 0 && weakAttackCounter >= 120)
                         {
@@ -323,16 +358,7 @@ namespace SMGame.Character
                     case 0:
                         break;
                 }
-            }
-
-
-
-
-
-
-
-
-
+            }   
             #region　攻撃隠し隠し
             ////N1
             //if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
@@ -414,6 +440,47 @@ namespace SMGame.Character
         }
 
         /// <summary>
+        /// スキル①or②攻撃
+        /// </summary>
+        public void SkillAttack()
+        {
+            //Lボタン + Rボタン（弱攻撃）
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
+                && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            {
+                whichSkillCheck = 1;
+            }
+
+            //Lボタン + Xボタン（強攻撃）
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
+                && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
+            {
+                whichSkillCheck = 2;
+            }
+
+            switch (whichSkillCheck)
+            {
+                case 1:
+                    if (AttackHit(boss))
+                    {
+                        IsSkillHitFlag = true;
+                        boss.NormalCollision(this);
+                        boss.Skill1ReceiveDamage(this);
+                    }
+                    break;
+
+                case 2:
+                    if (AttackHit(boss))
+                    {
+                        IsSkillHitFlag = true;
+                        boss.NormalCollision(this);
+                        boss.Skill2ReceiveDamage(this);
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
         /// 幅関連の当たり判定
         /// </summary>
         /// <returns></returns>
@@ -462,7 +529,5 @@ namespace SMGame.Character
         {
             return this.GetAttackRectangle().Intersects(other.GetRectangle());
         }
-
-
     }
 }

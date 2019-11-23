@@ -76,6 +76,11 @@ namespace SMGame.Scene
             {
                 IsEndFlag = true;
             }
+
+            if (boss.IsDead())
+            {
+                IsEndFlag = true;
+            }
         }
     }
 }
