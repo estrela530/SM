@@ -306,6 +306,25 @@ namespace SMGame.Device
                 0.0f                    // スプライト表示深度
                 );
         }
+        public void DrawTexture(string name, Vector2 position, Single rotate, Vector2 axis, Vector2 scale,SpriteEffects effects, float alpha = 1.0f)
+        {
+            Debug.Assert(textures.ContainsKey(name),
+                "アセット名を間違えていませんか？\n" +
+                "大文字小文字が間違ってませんか？\n" +
+                "LoadTextureで読み込んでますか？\n" +
+                "プログラムを確認してください\n");
+            spriteBatch.Draw(
+                textures[name],         // 画像
+                position,               // 位置
+                null,                   // 切り取り範囲
+                Color.White * alpha,    // 透過
+                rotate,                 // 回転
+                axis,                   // 回転軸の位置
+                scale,                  // 拡大縮小
+                effects,     // 表示反転効果
+                0.0f                    // スプライト表示深度
+                );
+        }
         /// <summary>
         /// 画像の描画（指定範囲）拡大縮小対応
         /// </summary>

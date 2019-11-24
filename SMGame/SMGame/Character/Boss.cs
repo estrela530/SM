@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using SMGame.Device;
+using SMGame.Character.Legs;
 
 namespace SMGame.Character
 {
@@ -21,6 +22,8 @@ namespace SMGame.Character
         public Player player;
         public bool IsDeadFlag;
 
+        private Leg3 rightFrontLeg;
+
         public Boss(Vector2 position, GameDevice gameDevice, int Width, int Height)
         {
             this.position = position;
@@ -29,6 +32,7 @@ namespace SMGame.Character
             Hp = 100;
             AttackPower = 10;
             IsDeadFlag = false;
+            rightFrontLeg = new Leg3();
         }
 
 
@@ -38,24 +42,29 @@ namespace SMGame.Character
             AttackPower = 10;
             seconds = 0;
             IsDeadFlag = false;
+            rightFrontLeg = new Leg3();
         }
         public void Draw(Renderer renderer)
         {
             if (IsDeadFlag != true)
             {
-                renderer.DrawTexture("kumo", position);
+                renderer.DrawTexture("body-back", Vector2.Zero);
+                renderer.DrawTexture("body-mid", Vector2.Zero);
+                rightFrontLeg.Draw(renderer);
+                renderer.DrawTexture("body-front", Vector2.Zero);
             }
         }
 
 
         public void Update(GameTime gameTime)
         {
+            rightFrontLeg.Update(gameTime);
             seconds += 10/* / 60*/;
 
             IdleMove();
 
             #region Debug確認用
-            Console.WriteLine("Boss.Hp = " + Hp);
+            //Console.WriteLine("Boss.Hp = " + Hp);
             #endregion
 
             if (Hp <= 0)
@@ -141,5 +150,11 @@ namespace SMGame.Character
             return IsDeadFlag;
         }
       
+
+        public void GetPlayer(Player player)
+        {
+            this.player = player;
+            rightFrontLeg.GetPlayer(player);
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace SMGame.Character
 {
     class Player
     {
-        private Vector2 position;
+        public Vector2 position;
         private Vector2 velocity;
         public float moveSpeed = 7.0f;
         public float Hp;
@@ -148,7 +148,7 @@ namespace SMGame.Character
         /// <param name="renderer"></param>
         public void Draw(Renderer renderer)
         {
-            renderer.DrawTexture("PlayerTatie", position);
+            renderer.DrawTexture("run1", position);
 
             if (AvoidFlag && avoidCoolTime <= 20 /*|| true*/)
             {
@@ -181,19 +181,16 @@ namespace SMGame.Character
 
             if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
             {
-                seconds++;
+                sound.PlaySEInstance("run");
             }
-            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0 || seconds >= 180)
+            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0)
             {
-                seconds = 0;
+                sound.StopSEInstance("run");
             }
 
-            if (seconds > 0 && seconds <= 180)
+            if (IsJumpFlag)
             {
-                if (seconds == 1)
-                {
-                    sound.PlaySE("run");
-                }
+                sound.StopSEInstance("run");
             }
         }
 
@@ -230,7 +227,6 @@ namespace SMGame.Character
             }
             else
             {
-
                 //ジャンプ中だけ落下
                 velocity.Y = velocity.Y + 0.4f;
 
@@ -248,10 +244,10 @@ namespace SMGame.Character
         /// </summary>
         public void GroundHit()
         {
-            if (position.Y > Screen.Height - 180)
+            if (position.Y > Screen.Height - 128)
             {
                 velocity.Y = 0.0f;
-                position.Y = Screen.Height - 180;
+                position.Y = Screen.Height - 128;
                 IsJumpFlag = false;
             }
         }

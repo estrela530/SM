@@ -19,7 +19,6 @@ namespace SMGame.Scene
         private bool IsEndFlag;
         // サウンド
         private Sound sound;
-        private Leg2 leg;
 
         /// <summary>
         /// コンストラクタ
@@ -29,15 +28,12 @@ namespace SMGame.Scene
             IsEndFlag = false;
             var gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
-
-            leg = new Leg2();
-
+            
         }
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
             renderer.DrawTexture("Title", Vector2.Zero);
-            leg.Draw(renderer);
             renderer.End();
         }
 
@@ -67,7 +63,6 @@ namespace SMGame.Scene
 
         public void Update(GameTime gameTime)
         {
-            leg.Update(gameTime);
             //if(Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
             //{
             //    sound.PlaySE("run");

@@ -48,9 +48,8 @@
     <Compile Include="Character\Legs\Leg2.cs" />
     <Compile Include="Character\Legs\Leg3.cs" />
     <Compile Include="Character\Legs\Leg4.cs" />
-    <Compile Include="Character\Legs\Leg5.cs" />
-    <Compile Include="Character\Legs\Leg6.cs" />
     <Compile Include="Character\Player.cs" />
+    <Compile Include="Collision.cs" />
     <Compile Include="Def\Screen.cs" />
     <Compile Include="Device\GameDevice.cs" />
     <Compile Include="Device\Loader.cs" />

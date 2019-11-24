@@ -42,7 +42,7 @@ namespace SMGame.Scene
         {
             renderer.Begin();
 
-            renderer.DrawTexture("backColor", Vector2.Zero);
+            renderer.DrawTexture("back", Vector2.Zero);
 
             boss.Draw(renderer);
             player.Draw(renderer);
@@ -69,6 +69,10 @@ namespace SMGame.Scene
 
         public void Update(GameTime gameTime)
         {
+            if (boss.player == null)
+            {
+                boss.GetPlayer(player);
+            }
             boss.Update(gameTime);
             player.Update(gameTime);
 
