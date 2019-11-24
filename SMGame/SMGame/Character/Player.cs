@@ -20,6 +20,7 @@ namespace SMGame.Character
         public float AttackPower;
         public bool IsJumpFlag = false;
         private Motion motion;
+        private Motion motionRun;
         private int width;
         private int height;
         private int attackPosition = 73;
@@ -43,6 +44,13 @@ namespace SMGame.Character
         public int skill2Power = 30;
         public int whichSkillCheck = 0;
         public bool IsSkillHitFlag = false;
+        public Vector2 Skill1MovePosition;
+        public int skill1Combo = 0;
+        public int skillCoolTime;
+        private Vector2 directionD;
+        private Vector2 stickDirection;
+        private double stickAngle;
+        private double angle = 0;
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -75,14 +83,24 @@ namespace SMGame.Character
             sound = gameDevice.GetSound();
 
             #region アニメーション関連
-            //アニメーション設定
+            //idleアニメーション設定
             motion = new Motion(
+                new Range(0, 1),
+                new CountDownTimer(0.3f));
+
+            for (int i = 0; i < 2; i++)
+            {
+                motion.Add(i, new Rectangle(128 * i, 0, 128, 128));
+            }
+
+            //runアニメーション設定
+            motionRun = new Motion(
                 new Range(0, 3),
                 new CountDownTimer(0.3f));
 
             for (int i = 0; i < 4; i++)
             {
-                motion.Add(i, new Rectangle(128 * i, 0, 128, 128));
+                motionRun.Add(i, new Rectangle(128 * i, 0, 128, 128));
             }
             #endregion
         }
@@ -105,6 +123,10 @@ namespace SMGame.Character
             seconds = 0;
             whichSkillCheck = 0;
             IsSkillHitFlag = false;
+            Skill1MovePosition = Vector2.Zero;
+            skill1Combo = 0;
+            skillCoolTime = 0;
+            angle = 0;
         }
 
 
@@ -118,8 +140,12 @@ namespace SMGame.Character
             PlayerMove();
             PlayerJump();
             GroundHit();
+            SkillAttack();
             NormalAttack();
             PlayerAvoid();
+            motion.Update(gameTime);
+            motionRun.Update(gameTime);
+
             #region Debug確認用
             //Console.WriteLine("HitFlag = " + AttackHitFlag);
             //Console.WriteLine("weakAttackCounter" + weakAttackCounter);
@@ -148,7 +174,18 @@ namespace SMGame.Character
         /// <param name="renderer"></param>
         public void Draw(Renderer renderer)
         {
-            renderer.DrawTexture("PlayerTatie", position);
+            //if (!AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
+            //{
+            //}
+            if (Input.GetLeftStickground(PlayerIndex.One).X == 0)
+            {
+                renderer.DrawTexture("idle-anim", position, motion.DrawingRange());
+            }
+
+            if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
+            {
+                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange());
+            }
 
             if (AvoidFlag && avoidCoolTime <= 20 /*|| true*/)
             {
@@ -163,9 +200,6 @@ namespace SMGame.Character
                     rect = new Rectangle(0, 0, x, 128);
                     renderer.DrawTexture("Avoid2", currentPosition + new Vector2(50 + a, 0), new Vector2(a, 0), rect, alpha);
                     x += 18 * i;
-
-                    Console.WriteLine("alpha = " + alpha);
-
                 }
             }
 
@@ -178,6 +212,26 @@ namespace SMGame.Character
         public void PlayerMove()
         {
             velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed;
+
+            // 角度計算
+            stickDirection = Input.GetLeftSticksky(PlayerIndex.One);
+            stickAngle = Math.Atan2(stickDirection.Y, stickDirection.X);
+            if (stickDirection != Vector2.Zero)
+            {
+                directionD = stickDirection;
+                directionD.Normalize();
+                angle = stickAngle;
+                //Console.WriteLine("angle = " + angle);
+            }
+
+            if (-1.5f <= angle && angle <= 1.5f)
+            {
+                vecterFlag = true;
+            }
+            else
+            {
+                vecterFlag = false;
+            }
 
             if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
             {
@@ -358,7 +412,7 @@ namespace SMGame.Character
                     case 0:
                         break;
                 }
-            }   
+            }
             #region　攻撃隠し隠し
             ////N1
             //if (Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
@@ -445,18 +499,20 @@ namespace SMGame.Character
         public void SkillAttack()
         {
             //Lボタン + Rボタン（弱攻撃）
-            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
-                && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
+            //    && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftTrigger))
             {
                 whichSkillCheck = 1;
             }
 
             //Lボタン + Xボタン（強攻撃）
-            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
-                && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
-            {
-                whichSkillCheck = 2;
-            }
+            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
+            //    && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
+            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftTrigger))
+            //{
+            //    whichSkillCheck = 2;
+            //}
 
             switch (whichSkillCheck)
             {
@@ -466,6 +522,7 @@ namespace SMGame.Character
                         IsSkillHitFlag = true;
                         boss.NormalCollision(this);
                         boss.Skill1ReceiveDamage(this);
+                        Skill1AttackMove();
                     }
                     break;
 
@@ -475,6 +532,76 @@ namespace SMGame.Character
                         IsSkillHitFlag = true;
                         boss.NormalCollision(this);
                         boss.Skill2ReceiveDamage(this);
+                    }
+                    break;
+            }
+        }
+
+        public void Skill1AttackMove()
+        {
+
+            if (IsSkillHitFlag && skill1Combo == 0)
+            {
+                skill1Combo++;
+            }
+
+            skillCoolTime++;
+
+
+            switch (skill1Combo)
+            {
+                case 1:
+                    Skill1MovePosition = this.position;
+                    if (skillCoolTime >= 18)
+                    {
+                        skill1Combo++;
+                        skillCoolTime = 0;
+                    }
+                    break;
+
+                case 2:
+                    position = position + new Vector2(400, 400);
+                    if (skillCoolTime >= 18)
+                    {
+                        Console.WriteLine("来た！ ");
+                        skill1Combo++;
+                        skillCoolTime = 0;
+                    }
+                    break;
+
+                case 3:
+                    position = position + new Vector2(100, 400);
+                    if (skillCoolTime >= 18)
+                    {
+                        skill1Combo++;
+                        skillCoolTime = 0;
+                    }
+                    break;
+
+                case 4:
+                    position = position + new Vector2(400, 200);
+                    if (skillCoolTime >= 18)
+                    {
+                        skill1Combo++;
+                        skillCoolTime = 0;
+                    }
+                    break;
+
+                case 5:
+                    position = position + new Vector2(250, 600);
+                    if (skillCoolTime >= 18)
+                    {
+                        skill1Combo++;
+                        skillCoolTime = 0;
+                    }
+                    break;
+
+                case 6:
+                    position = position + new Vector2(250, 0);
+                    if (skillCoolTime >= 18)
+                    {
+                        skill1Combo = 0; ;
+                        skillCoolTime = 0;
                     }
                     break;
             }

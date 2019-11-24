@@ -56,7 +56,12 @@ namespace SMGame.Scene
                 {"LegU",path },
                 {"PlayerTatie",path },
                 {"Avoid",path },
-                {"Avoid2",path }
+                {"Avoid2",path },
+                {"back" ,path },
+                {"idle-anim",path },
+                {"attack1-anim",path },
+                {"attack2-anim" ,path},
+                {"run-anim" ,path}
                 //ここから上追加
             };
 
