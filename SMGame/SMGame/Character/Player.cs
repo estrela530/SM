@@ -661,8 +661,6 @@ namespace SMGame.Character
                 skill1Combo++;
             }
 
-            //skillCoolTime++;
-
 
             switch (skill1Combo)
             {
