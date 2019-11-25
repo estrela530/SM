@@ -153,6 +153,7 @@ namespace SMGame.Character
             //Console.WriteLine("ComboFlag = " + ComboFlag);
             //Console.WriteLine("ComboCount= " + comboCount);
             //Console.WriteLine("alpha = " + alpha);
+            Console.WriteLine("skill1combo = " + skill1Combo);
             #endregion
 
             if (AttackHitFlag && comboCount != 0)
@@ -250,17 +251,30 @@ namespace SMGame.Character
             }
             else if (AvoidFlag && avoidCoolTime <= 20 && vecterFlag == false)
             {
-                float a = -355;
-                int x = 0;
+                float a = 355;
+                int x = 355;
                 Rectangle rectL;
                 for (int i = 0; i < 20; i++)
                 {
-                    alpha -= i / 15;
+                    alpha -= i / 2;
                     rectL = new Rectangle(0, 0, x, 128);
-                    renderer.DrawTexture("Avoid2", currentPosition + new Vector2(-50 + a, 0), new Vector2(a, 0), rectL, alpha , 1);
-                    x += 18 * i;
+                    renderer.DrawTexture("Avoid2", currentPosition + new Vector2(50, 0), new Vector2(a, 0), rectL, alpha , 1);
+                    x -= 18 * i;
                 }
             }
+            //else if (AvoidFlag && avoidCoolTime <= 20 && vecterFlag == false)
+            //{
+            //    float a = 180;
+            //    int x = 0;
+            //    Rectangle rectL;
+            //    for (int i = 0; i < 20; i++)
+            //    {
+            //        alpha -= i / 15;
+            //        rectL = new Rectangle(0, 0, x, 128);
+            //        renderer.DrawTexture("Avoid2", currentPosition + new Vector2(50, 0), new Vector2(a, 0), rectL, alpha , 1);
+            //        x += 18 * i;
+            //    }
+            //}
         }
 
         /// <summary>
@@ -290,19 +304,6 @@ namespace SMGame.Character
                 vecterFlag = false;
             }          
 
-            //if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
-            //{
-            //    sound.PlaySEInstance("run");
-            //}
-            //else if (Input.GetLeftStickground(PlayerIndex.One).X == 0)
-            //{
-            //    sound.StopSEInstance("run");
-            //}
-
-            //if (IsJumpFlag)
-            //{
-            //    sound.StopSEInstance("run");
-            //}
         }
 
         /// <summary>
@@ -572,7 +573,7 @@ namespace SMGame.Character
             //if ((Input.IsButtonPress(PlayerIndex.One, Buttons.LeftShoulder) && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
             //    || Input.IsButtonPress(PlayerIndex.One, Buttons.RightShoulder) && (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)))
             //{
-            //    whichSkillCheck = 1;
+            //    whichSkillCheck = 0;
             //}
             if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftTrigger))
             {
@@ -582,11 +583,11 @@ namespace SMGame.Character
             //Lボタン + Xボタン（強攻撃）
             //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
             //    && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
-            //    if ((Input.IsButtonPress(PlayerIndex.One, Buttons.LeftShoulder) && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
-            //    || Input.IsButtonPress(PlayerIndex.One, Buttons.X) && (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)))
-            //    {
-            //        whichSkillCheck = 1;
-            //    }
+            // if ((Input.IsButtonPress(PlayerIndex.One, Buttons.LeftShoulder) && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
+            //     || Input.IsButtonPress(PlayerIndex.One, Buttons.X) && (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)))
+            // {
+            //     whichSkillCheck = 1;
+            // }
             if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder))
             {
                 whichSkillCheck = 2;
