@@ -225,7 +225,7 @@ namespace SMGame.Device
         /// <param name="rect">画像の切り出し範囲</param>
         /// <param name="alpha">透明値</param>
         public void DrawTexture(string name, Vector2 position,
-                                        Vector2 axis, Rectangle rectangle,float alpha, int sprite = 0)
+                                        Vector2 axis, Rectangle rectangle, float alpha, int sprite = 0)
         {
             // 登録されているキーがなければエラー表示
             Debug.Assert(
@@ -303,6 +303,25 @@ namespace SMGame.Device
                 axis,                   // 回転軸の位置
                 scale,                  // 拡大縮小
                 SpriteEffects.None,     // 表示反転効果
+                0.0f                    // スプライト表示深度
+                );
+        }
+        public void DrawTexture(string name, Vector2 position, Single rotate, Vector2 axis, Vector2 scale, SpriteEffects effects, float alpha = 1.0f)
+        {
+            Debug.Assert(textures.ContainsKey(name),
+                "アセット名を間違えていませんか？\n" +
+                "大文字小文字が間違ってませんか？\n" +
+                "LoadTextureで読み込んでますか？\n" +
+                "プログラムを確認してください\n");
+            spriteBatch.Draw(
+                textures[name],         // 画像
+                position,               // 位置
+                null,                   // 切り取り範囲
+                Color.White * alpha,    // 透過
+                rotate,                 // 回転
+                axis,                   // 回転軸の位置
+                scale,                  // 拡大縮小
+                effects,     // 表示反転効果
                 0.0f                    // スプライト表示深度
                 );
         }

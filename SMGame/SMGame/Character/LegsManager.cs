@@ -11,21 +11,28 @@ namespace SMGame.Character
     abstract class LegsManager
     {
         protected Vector2 position;
-        protected string name;
+        protected Vector2 rootPosition;
+        protected string rootname;
+        protected string tipname;
         protected float MoveSpeed;
+        protected Player player;
 
-        public LegsManager(string name, Vector2 position)
+        public LegsManager(string rootName, string tipName)
         {
-            this.name = name;
-            this.position = position;
+            this.rootname = rootName;
+            this.tipname = tipName;
         }
 
         public abstract void Initialize();
         public abstract void Update(GameTime gameTime);
+        public virtual void GetPlayer(Player player)
+        {
+            this.player = player;
+        }
 
         public virtual void Draw(Renderer renderer)
         {
-            renderer.DrawTexture(name, position);
+            renderer.DrawTexture(rootname, position);
         }
 
     }

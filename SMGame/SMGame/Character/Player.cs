@@ -13,7 +13,7 @@ namespace SMGame.Character
 {
     class Player
     {
-        private Vector2 position;
+        public Vector2 position;
         private Vector2 velocity;
         public float moveSpeed = 7.0f;
         public float Hp;
