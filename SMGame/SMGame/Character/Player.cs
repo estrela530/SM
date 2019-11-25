@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 using SMGame.Device;
 using SMGame.Def;
 using SMGame.Util;
-<<<<<<< HEAD
-=======
+
 using SMGame.Character.Legs;
 using SMGame.Scene;
->>>>>>> dd0aa8046c2f6fa975d2895b1fb3f031adaab4eb
 
 namespace SMGame.Character
 {
@@ -56,16 +54,14 @@ namespace SMGame.Character
         private Vector2 stickDirection;
         private double stickAngle;
         private double angle = 0;
-<<<<<<< HEAD
-        
-=======
+
         private Leg1 leg1;
         private Leg2 leg2;
         private Leg3 leg3;
         private Leg4 leg4;
         private SceneManager sceneManager;
         private SceneName sceneNameP;
->>>>>>> dd0aa8046c2f6fa975d2895b1fb3f031adaab4eb
+
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -418,21 +414,12 @@ namespace SMGame.Character
                             Console.WriteLine("comboCnt" + comboCount);
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-<<<<<<< HEAD
+
                             if ((sceneNameP != SceneName.GameTitle))
                             {
                                 boss.ReceiveDamage(this);
                             }
-=======
-                            boss.ReceiveDamage(this);
-<<<<<<< HEAD
-=======
-                            //leg1.Damage(5);
-                            //leg2.Damage(5);
-                            //leg3.Damage(5);
-                            //leg4.Damage(5);
->>>>>>> dd0aa8046c2f6fa975d2895b1fb3f031adaab4eb
->>>>>>> db5201bb9582494049b4270eed69eb361e3f6f53
+
                         }
                         else if (!AttackHit(boss))
                         {
