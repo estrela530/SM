@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SMGame.Scene;
 using SMGame.Device;
 using SMGame.Character.Legs;
+using SMGame.Character;
+using SMGame.Def;
 
 namespace SMGame.Scene
 {
@@ -19,7 +21,7 @@ namespace SMGame.Scene
         private bool IsEndFlag;
         // サウンド
         private Sound sound;
-        private Leg2 leg;
+        private Boss boss;
 
         /// <summary>
         /// コンストラクタ
@@ -30,11 +32,13 @@ namespace SMGame.Scene
             var gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
 
+            boss = new Boss(new Vector2(Screen.Width / 2 - 125 / 2, Screen.Height - 250), gameDevice, 125, 200, true);
         }
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
             renderer.DrawTexture("Title", Vector2.Zero);
+            boss.Draw(renderer);
             renderer.End();
         }
 
@@ -68,6 +72,7 @@ namespace SMGame.Scene
             //{
             //    sound.PlaySE("run");
             //}
+            boss.Update(gameTime);
             if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One,Buttons.Start))
             {
                 IsEndFlag = true;

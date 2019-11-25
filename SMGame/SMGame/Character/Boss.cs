@@ -27,6 +27,10 @@ namespace SMGame.Character
         List<LegsManager> frontLegs;
         List<LegsManager> backLegs;
 
+
+        //false=>ゲームプレイ true=>タイトル
+        bool titleFlag;
+
         public Boss(Vector2 position, GameDevice gameDevice, int Width, int Height)
         {
             this.position = position;
@@ -46,6 +50,19 @@ namespace SMGame.Character
         }
 
 
+        public Boss(Vector2 position, GameDevice gameDevice, int Width, int Height, bool title)
+        {
+            this.position = position;
+            this.width = Width;
+            this.height = Height;
+            Hp = 1000000000;
+            MaxHp = Hp;
+            AttackPower = 10;
+            IsDeadFlag = false;
+            titleFlag = title;
+        }
+
+
         public void Initialize()
         {
             Hp = 2000;
@@ -53,6 +70,8 @@ namespace SMGame.Character
             AttackPower = 10;
             seconds = 0;
             IsDeadFlag = false;
+
+            if (titleFlag) return;
             frontLegs = new List<LegsManager>();
             frontLegs.Add(new Leg1(200));
             frontLegs.Add(new Leg2(200));
@@ -63,6 +82,11 @@ namespace SMGame.Character
         }
         public void Draw(Renderer renderer)
         {
+            if (titleFlag)
+            {
+                renderer.DrawTexture("Log", position);
+                return;
+            }
             if (IsDeadFlag != true)
             {
                 renderer.DrawTexture("body-back", Vector2.Zero);
@@ -86,6 +110,7 @@ namespace SMGame.Character
 
         public void Update(GameTime gameTime)
         {
+            if (titleFlag) return;
             seconds += 10/* / 60*/;
 
 
@@ -105,25 +130,6 @@ namespace SMGame.Character
             if (Hp <= 0)
             {
                 IsDeadFlag = true;
-            }
-
-            if (Input.GetKeyTrigger(Microsoft.Xna.Framework.Input.Keys.P))
-            {
-                Hp -= player.AttackPower;
-                foreach (var fleg in frontLegs)
-                {
-                    if (fleg.IsBrake())
-                    {
-                        Hp -= player.AttackPower;
-                    }
-                }
-                foreach (var bleg in backLegs)
-                {
-                    if (bleg.IsBrake())
-                    {
-                        Hp -= player.AttackPower;
-                    }
-                }
             }
         }
 

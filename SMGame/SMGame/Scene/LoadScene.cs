@@ -71,10 +71,17 @@ namespace SMGame.Scene
                 {"back",path },
                 {"Head",path },
                 {"leg-tip-back",path },
+                {"leg-tip-back-damage",path },
                 {"leg-root-back",path },
+                {"leg-root-back-damage",path },
                 {"body-mid",path },
                 {"body-front",path },
                 {"body-back",path },
+                {"VerticalBrade",path },
+                {"HorizontalBrade",path },
+                {"playerHp",path },
+                {"playerHpBar",path },
+                {"Log",path },
                 {"run1",path }
                 //ここから上追加
             };

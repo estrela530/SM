@@ -51,6 +51,7 @@ namespace SMGame.Character
         private Vector2 stickDirection;
         private double stickAngle;
         private double angle = 0;
+        
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -81,7 +82,7 @@ namespace SMGame.Character
             rectangle = new Rectangle(0, 0, 30, 128);
             gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
-
+            
             #region アニメーション関連
             //idleアニメーション設定
             motion = new Motion(
@@ -174,6 +175,22 @@ namespace SMGame.Character
         /// <param name="renderer"></param>
         public void Draw(Renderer renderer)
         {
+            renderer.DrawTexture("playerHp", new Vector2(0, 88));
+            renderer.DrawTexture("playerHpBar", new Vector2(0, 88));
+            if (ComboFlag)
+            {
+                if (comboCount % 2 == 1)
+                {
+                    renderer.DrawTexture("attack1-anim", position, motion.DrawingRange(), 0);
+                    renderer.DrawTexture("VerticalBrade", position);
+                }
+                else
+                {
+                    renderer.DrawTexture("attack2-anim", position, motion.DrawingRange(), 0);
+                    renderer.DrawTexture("HorizontalBrade", position);
+                }
+                return;
+            }
 
             //向きらへん
             if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == true && IsJumpFlag == false
@@ -349,10 +366,10 @@ namespace SMGame.Character
         /// </summary>
         public void GroundHit()
         {
-            if (position.Y > Screen.Height - 180)
+            if (position.Y > Screen.Height - 128)
             {
                 velocity.Y = 0.0f;
-                position.Y = Screen.Height - 180;
+                position.Y = Screen.Height - 128;
                 IsJumpFlag = false;
             }
         }
@@ -371,12 +388,11 @@ namespace SMGame.Character
 
             if (ComboFlag)
             {
-                weakAttackCounter++;
                 switch (comboCount)
                 {
                     //0.5秒以内に
                     case 1:
-                        if (AttackHit(boss))
+                        if (AttackHit(boss) && weakAttackCounter == 1)
                         {
                             Console.WriteLine("N1入った！");
                             Console.WriteLine("comboCnt" + comboCount);
@@ -384,17 +400,22 @@ namespace SMGame.Character
                             boss.NormalCollision(this);
                             boss.ReceiveDamage(this);
                         }
-                        if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+                        else if(!AttackHit(boss))
+                        {
+                            ComboFlag = false;
+                            comboCount = 0;
+                        }
+                        if (weakAttackCounter > 0 && weakAttackCounter <= 30 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
                             Console.WriteLine("わーーーーーーーーーーー");
                             weakAttackCounter = 0;
-                            comboCount++;
                         }
-                        if (weakAttackCounter > 60)
+                        if (weakAttackCounter > 30)
                         {
                             weakAttackCounter = 0;
                             comboCount = 0;
                             ComboFlag = false;
+                            AttackHitFlag = false;
                         }
                         break;
 
@@ -407,16 +428,16 @@ namespace SMGame.Character
                             boss.NormalCollision(this);
                             boss.ReceiveDamage(this);
                         }
-                        if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+                        if (weakAttackCounter > 0 && weakAttackCounter <= 30 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
                             weakAttackCounter = 0;
-                            comboCount++;
                         }
-                        if (weakAttackCounter > 60)
+                        if (weakAttackCounter > 30)
                         {
                             weakAttackCounter = 0;
                             comboCount = 0;
                             ComboFlag = false;
+                            AttackHitFlag = false;
                         }
                         break;
 
@@ -428,16 +449,16 @@ namespace SMGame.Character
                             boss.NormalCollision(this);
                             boss.ReceiveDamage(this);
                         }
-                        if (weakAttackCounter > 0 && weakAttackCounter <= 60 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+                        if (weakAttackCounter > 0 && weakAttackCounter <= 30 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
                             weakAttackCounter = 0;
-                            comboCount = 4;
                         }
-                        if (weakAttackCounter > 60)
+                        if (weakAttackCounter > 30)
                         {
                             weakAttackCounter = 0;
                             comboCount = 0;
                             ComboFlag = false;
+                            AttackHitFlag = false;
                         }
                         break;
 
@@ -449,16 +470,18 @@ namespace SMGame.Character
                             boss.NormalCollision(this);
                             boss.ReceiveDamage(this);
                         }
-                        if (weakAttackCounter >= 0 && weakAttackCounter >= 120)
+                        if (weakAttackCounter >= 0 && weakAttackCounter >= 60)
                         {
                             weakAttackCounter = 0;
                             comboCount = 0;
                             ComboFlag = false;
+                            AttackHitFlag = false;
                         }
                         break;
                     case 0:
                         break;
                 }
+                weakAttackCounter++;
             }
             #region　攻撃隠し隠し
             ////N1
