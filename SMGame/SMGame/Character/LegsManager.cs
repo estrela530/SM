@@ -17,10 +17,14 @@ namespace SMGame.Character
         protected float MoveSpeed;
         protected Player player;
 
+        protected int Hp;
+        protected bool isBrake;
+
         public LegsManager(string rootName, string tipName)
         {
             this.rootname = rootName;
             this.tipname = tipName;
+            isBrake = false;
         }
 
         public abstract void Initialize();
@@ -35,5 +39,18 @@ namespace SMGame.Character
             renderer.DrawTexture(rootname, position);
         }
 
+        public virtual void Damage(int damage)
+        {
+            Hp -= damage;
+            if (Hp <= 0)
+            {
+                isBrake = true;
+            }
+        }
+
+        public bool IsBrake()
+        {
+            return isBrake;
+        }
     }
 }

@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using SMGame.Device;
+using SMGame.Character.Legs;
+using SMGame.Def;
 
 namespace SMGame.Character
 {
     class Boss : IChara
     {
         public float Hp;
+        private float MaxHp;
         private float AttackPower;
         private Vector2 velocity = new Vector2(0, 1);
         private float MoveSpeed = 0.5f;
@@ -21,29 +24,62 @@ namespace SMGame.Character
         public Player player;
         public bool IsDeadFlag;
 
+        List<LegsManager> frontLegs;
+        List<LegsManager> backLegs;
+
         public Boss(Vector2 position, GameDevice gameDevice, int Width, int Height)
         {
             this.position = position;
             this.width = Width;
             this.height = Height;
-            Hp = 100;
+            Hp = 2000;
+            MaxHp = Hp;
             AttackPower = 10;
             IsDeadFlag = false;
+            frontLegs = new List<LegsManager>();
+            frontLegs.Add(new Leg1(200));
+            frontLegs.Add(new Leg2(200));
+
+            backLegs = new List<LegsManager>();
+            backLegs.Add(new Leg3(400));
+            backLegs.Add(new Leg4(400));
         }
 
 
         public void Initialize()
         {
-            Hp = 100;
+            Hp = 2000;
+            MaxHp = Hp;
             AttackPower = 10;
             seconds = 0;
             IsDeadFlag = false;
+            frontLegs = new List<LegsManager>();
+            frontLegs.Add(new Leg1(200));
+            frontLegs.Add(new Leg2(200));
+
+            backLegs = new List<LegsManager>();
+            backLegs.Add(new Leg3(400));
+            backLegs.Add(new Leg4(400));
         }
         public void Draw(Renderer renderer)
         {
             if (IsDeadFlag != true)
             {
-                renderer.DrawTexture("kumo", position);
+                renderer.DrawTexture("body-back", Vector2.Zero);
+                foreach (var leg in backLegs)
+                {
+                    leg.Draw(renderer);
+                }
+                renderer.DrawTexture("body-mid", Vector2.Zero);
+                foreach (var leg in frontLegs)
+                {
+                    leg.Draw(renderer);
+                }
+                renderer.DrawTexture("body-front", Vector2.Zero);
+                renderer.DrawTexture("Head", position);
+
+                renderer.DrawTexture("HpBack", Vector2.Zero);
+                renderer.DrawTexture("HpBackBar", Vector2.Zero, new Rectangle(0, 0, (int)(Screen.Width * (Hp / MaxHp)), 88));
             }
         }
 
@@ -52,7 +88,15 @@ namespace SMGame.Character
         {
             seconds += 10/* / 60*/;
 
-            IdleMove();
+
+            foreach (var leg in frontLegs)
+            {
+                leg.Update(gameTime);
+            }
+            foreach (var leg in backLegs)
+            {
+                leg.Update(gameTime);
+            }
 
             #region Debug確認用
             Console.WriteLine("Boss.Hp = " + Hp);
@@ -63,6 +107,24 @@ namespace SMGame.Character
                 IsDeadFlag = true;
             }
 
+            if (Input.GetKeyTrigger(Microsoft.Xna.Framework.Input.Keys.P))
+            {
+                Hp -= player.AttackPower;
+                foreach (var fleg in frontLegs)
+                {
+                    if (fleg.IsBrake())
+                    {
+                        Hp -= player.AttackPower;
+                    }
+                }
+                foreach (var bleg in backLegs)
+                {
+                    if (bleg.IsBrake())
+                    {
+                        Hp -= player.AttackPower;
+                    }
+                }
+            }
         }
 
         public void IdleMove()
@@ -115,6 +177,20 @@ namespace SMGame.Character
         public void ReceiveDamage(Player player)
         {
             Hp -= player.AttackPower;
+            foreach (var fleg in frontLegs)
+            {
+                if (fleg.IsBrake())
+                {
+                    Hp -= player.AttackPower / 10;
+                }
+            }
+            foreach (var bleg in backLegs)
+            {
+                if (bleg.IsBrake())
+                {
+                    Hp -= player.AttackPower / 10;
+                }
+            }
         }
 
         /// <summary>
@@ -124,6 +200,20 @@ namespace SMGame.Character
         public void Skill1ReceiveDamage(Player player)
         {
             Hp -= player.skill1Power;
+            foreach (var fleg in frontLegs)
+            {
+                if (fleg.IsBrake())
+                {
+                    Hp -= player.skill1Power / 10;
+                }
+            }
+            foreach (var bleg in backLegs)
+            {
+                if (bleg.IsBrake())
+                {
+                    Hp -= player.skill1Power / 10;
+                }
+            }
         }
 
         /// <summary>
@@ -133,6 +223,20 @@ namespace SMGame.Character
         public void Skill2ReceiveDamage(Player player)
         {
             Hp -= player.skill2Power;
+            foreach (var fleg in frontLegs)
+            {
+                if (fleg.IsBrake())
+                {
+                    Hp -= player.skill2Power / 10;
+                }
+            }
+            foreach (var bleg in backLegs)
+            {
+                if (bleg.IsBrake())
+                {
+                    Hp -= player.skill2Power / 10;
+                }
+            }
         }
 
 
@@ -140,6 +244,19 @@ namespace SMGame.Character
         {
             return IsDeadFlag;
         }
-      
+
+
+        public void GetPlayer(Player player)
+        {
+            this.player = player;
+            foreach (var leg in frontLegs)
+            {
+                leg.GetPlayer(player);
+            }
+            foreach (var leg in backLegs)
+            {
+                leg.GetPlayer(player);
+            }
+        }
     }
 }

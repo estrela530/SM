@@ -74,7 +74,8 @@ namespace SMGame.Scene
                 {"leg-root-back",path },
                 {"body-mid",path },
                 {"body-front",path },
-                {"body-back",path }
+                {"body-back",path },
+                {"run1",path }
                 //ここから上追加
             };
 

@@ -36,12 +36,10 @@ namespace SMGame.Character.Legs
 
         Vector2 center;
 
-        bool isBrake = false;
-
         /// <summary>
         /// 前左足
         /// </summary>
-        public Leg4()
+        public Leg4(int Hp)
             : base("leg-root-back", "leg-tip-back")
         {
             isAttack = 0;
@@ -57,6 +55,8 @@ namespace SMGame.Character.Legs
             center = new Vector2(
                 position.X + tipAxis.Y,
                 position.Y + tipAxis.Y);
+
+            this.Hp = Hp;
         }
         public override void Initialize()
         {
@@ -70,6 +70,10 @@ namespace SMGame.Character.Legs
             if (isBrake)
             {
                 frame = 10f;
+            }
+            if (Input.GetKeyState(Keys.A))
+            {
+                Damage(10);
             }
         }
         public override void Draw(Renderer renderer)
@@ -201,6 +205,33 @@ namespace SMGame.Character.Legs
                 return true;
             }
             return false;
+        }
+
+        public override void Damage(int damage)
+        {
+            if (player == null)
+            {
+                return;
+            }
+
+            if (Collision.RotateRectangleCollision2(
+                topPosL, bottomPosL,
+                new Vector2(player.GetAttackRectangle().X, player.GetAttackRectangle().Y),
+                new Vector2(player.GetAttackRectangle().X + player.GetAttackRectangle().Width,
+                player.GetAttackRectangle().Y), tipRotate, center, 2)
+                &&
+
+                Collision.RotateRectangleCollision2(
+                    topPosR, bottomPosR,
+                new Vector2(player.GetAttackRectangle().X, player.GetAttackRectangle().Y),
+                new Vector2(player.GetAttackRectangle().X + player.GetAttackRectangle().Width, player.GetAttackRectangle().Y),
+                    tipRotate, center, 1)
+                &&
+
+                CheckHeight())
+            {
+                base.Damage(damage);
+            }
         }
     }
 }

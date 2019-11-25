@@ -21,7 +21,7 @@ namespace SMGame.Scene
         private Player player;
 
         //数値系　
-        public Vector2 bossFirstPosition = new Vector2(Screen.Width / 2, Screen.Height - 600);
+        public Vector2 bossPosition = new Vector2(450, 420);
         public Vector2 playerFirstPosition = new Vector2(Screen.Width / 4, Screen.Height - 128);
 
         public GamePlay()
@@ -34,7 +34,7 @@ namespace SMGame.Scene
         {
             IsEndFlag = false;
 
-            boss = new Boss(bossFirstPosition, gameDevice, 600, 600);
+            boss = new Boss(bossPosition, gameDevice, 344, 217);
             player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
         }
 
@@ -69,6 +69,10 @@ namespace SMGame.Scene
 
         public void Update(GameTime gameTime)
         {
+            if (boss.player == null)
+            {
+                boss.GetPlayer(player);
+            }
             boss.Update(gameTime);
             player.Update(gameTime);
 

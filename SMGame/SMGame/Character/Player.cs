@@ -174,49 +174,77 @@ namespace SMGame.Character
         /// <param name="renderer"></param>
         public void Draw(Renderer renderer)
         {
-            //if (!AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
-            //{
-            //}
 
             //向きらへん
-            if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == true
-                && !AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
+            if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == true && IsJumpFlag == false
+                /*&& !AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag*/)
             {
-                renderer.DrawTexture("idle-anim", position, motion.DrawingRange(),2);
+                renderer.DrawTexture("idle-anim", position, motion.DrawingRange(), 0);
+
+                sound.StopSEInstance("run");
             }
-            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == false
-                && !AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
+            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == false && IsJumpFlag == false
+                /*&& !AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag*/)
             {
-                renderer.DrawTexture("idle-anim", position, motion.DrawingRange(), 2);
+                renderer.DrawTexture("idle-anim", position, motion.DrawingRange(), 1);
+
+                sound.StopSEInstance("run");
             }
+
 
             if (Input.GetLeftStickground(PlayerIndex.One).X != 0 && vecterFlag == true)
             {
-                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange());
+                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange(), 0);
+
+                sound.PlaySEInstance("run");
             }
             else if (Input.GetLeftStickground(PlayerIndex.One).X != 0 && vecterFlag == false)
             {
-                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange(),2);
+                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange(), 1);
+
+                sound.PlaySEInstance("run");
             }
 
-            if (AvoidFlag && avoidCoolTime <= 20 /*|| true*/)
+            if (IsJumpFlag && vecterFlag)
             {
-                //renderer.DrawTexture("Avoid2", currentPosition);
+                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange(), 0);
 
+                sound.StopSEInstance("run");
+            }
+            else if (IsJumpFlag && vecterFlag == false)
+            {
+                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange(), 1);
+
+                sound.StopSEInstance("run");
+            }
+
+            if (AvoidFlag && avoidCoolTime <= 20 && vecterFlag)
+            {
                 float a = 355;
                 int x = 0;
-                Rectangle rect;
+                Rectangle rectR;
                 for (int i = 0; i < 20; i++)
                 {
                     alpha -= i / 15;
-                    rect = new Rectangle(0, 0, x, 128);
-                    renderer.DrawTexture("Avoid2", currentPosition + new Vector2(50 + a, 0), new Vector2(a, 0), rect, alpha);
+                    rectR = new Rectangle(0, 0, x, 128);
+                    renderer.DrawTexture("Avoid2", currentPosition + new Vector2(50 + a, 0), new Vector2(a, 0), rectR, alpha, 0);
                     x += 18 * i;
                 }
             }
-
+            else if (AvoidFlag && avoidCoolTime <= 20 && vecterFlag == false)
+            {
+                float a = -355;
+                int x = 0;
+                Rectangle rectL;
+                for (int i = 0; i < 20; i++)
+                {
+                    alpha -= i / 15;
+                    rectL = new Rectangle(0, 0, x, 128);
+                    renderer.DrawTexture("Avoid2", currentPosition + new Vector2(-50 + a, 0), new Vector2(a, 0), rectL, alpha , 1);
+                    x += 18 * i;
+                }
+            }
         }
-
 
         /// <summary>
         /// プレイヤー移動
@@ -243,24 +271,21 @@ namespace SMGame.Character
             else
             {
                 vecterFlag = false;
-            }
+            }          
 
-            if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
-            {
-                seconds++;
-            }
-            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0 || seconds >= 180)
-            {
-                seconds = 0;
-            }
+            //if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
+            //{
+            //    sound.PlaySEInstance("run");
+            //}
+            //else if (Input.GetLeftStickground(PlayerIndex.One).X == 0)
+            //{
+            //    sound.StopSEInstance("run");
+            //}
 
-            if (seconds > 0 && seconds <= 180)
-            {
-                if (seconds == 1)
-                {
-                    sound.PlaySE("run");
-                }
-            }
+            //if (IsJumpFlag)
+            //{
+            //    sound.StopSEInstance("run");
+            //}
         }
 
         /// <summary>
@@ -270,7 +295,7 @@ namespace SMGame.Character
         {
             avoidCoolTime++;
 
-            if (Input.IsButtonDown(PlayerIndex.One, Buttons.Y) && AvoidFlag == false)
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.Y) && AvoidFlag == false && vecterFlag)
             {
                 //velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed * avoidSpeed;
                 avoidCoolTime = 0;
@@ -278,6 +303,16 @@ namespace SMGame.Character
                 previousPosition = currentPosition;
                 currentPosition = position;
                 position = new Vector2(position.X + avoidSpeed, position.Y);
+                sound.PlaySE("avoid");
+            }
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.Y) && AvoidFlag == false && vecterFlag == false)
+            {
+                //velocity.X = Input.GetLeftStickground(PlayerIndex.One).X * moveSpeed * avoidSpeed;
+                avoidCoolTime = 0;
+                AvoidFlag = true;
+                previousPosition = currentPosition;
+                currentPosition = position;
+                position = new Vector2(position.X - avoidSpeed, position.Y);
                 sound.PlaySE("avoid");
             }
         }

@@ -30,14 +30,11 @@ namespace SMGame.Scene
             var gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
 
-            leg = new Leg2();
-
         }
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
             renderer.DrawTexture("Title", Vector2.Zero);
-            leg.Draw(renderer);
             renderer.End();
         }
 
@@ -67,7 +64,6 @@ namespace SMGame.Scene
 
         public void Update(GameTime gameTime)
         {
-            leg.Update(gameTime);
             //if(Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
             //{
             //    sound.PlaySE("run");
