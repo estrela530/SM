@@ -95,6 +95,8 @@ namespace SMGame.Scene
             // BGM読み込み対象データ
             string[,] data = new string[,]
             {
+                {"title",path },
+                {"BossBGM",path },
             };
 
             return data;
