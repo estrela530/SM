@@ -37,7 +37,7 @@ namespace SMGame.Scene
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
-            renderer.DrawTexture("Title", Vector2.Zero);
+            renderer.DrawTexture("titleT", Vector2.Zero);
             boss.Draw(renderer);
             renderer.End();
         }

@@ -33,7 +33,7 @@ namespace SMGame.Scene
         {
             renderer.Begin();
 
-            renderer.DrawTexture("Ending", Vector2.Zero);
+            renderer.DrawTexture("gameclear", Vector2.Zero);
 
             renderer.End();
         }

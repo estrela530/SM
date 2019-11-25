@@ -82,7 +82,12 @@ namespace SMGame.Scene
                 {"playerHp",path },
                 {"playerHpBar",path },
                 {"Log",path },
-                {"run1",path }
+                {"run1",path },
+                {"titleT",path },
+                {"gameover",path },
+                {"gameclear",path },
+                {"pipo-btleffect145",path },
+
                 //ここから上追加
             };
 
@@ -130,6 +135,8 @@ namespace SMGame.Scene
                {"destruction1",path },
                {"run",path },
                {"avoid",path },
+               {"jump",path },
+
             };
 
             return data;
