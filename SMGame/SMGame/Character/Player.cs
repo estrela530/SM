@@ -59,6 +59,7 @@ namespace SMGame.Character
         private Leg4 leg4;
         private SceneManager sceneManager;
         private SceneName sceneNameP;
+        private SceneName sceneNameT;
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -413,7 +414,7 @@ namespace SMGame.Character
                             boss.NormalCollision(this);
                             boss.ReceiveDamage(this);
 
-                            if ((sceneNameP != SceneName.GameTitle))
+                            if ((sceneNameT != SceneName.GameTitle))
                             {
                                 boss.ReceiveDamage(this);
                             }
@@ -445,7 +446,7 @@ namespace SMGame.Character
                             Console.WriteLine("わーーーーーーーーーーー");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            if ((sceneNameP != SceneName.GameTitle))
+                            if ((sceneNameT != SceneName.GameTitle))
                             {
                                 boss.ReceiveDamage(this);
                             }
@@ -469,7 +470,7 @@ namespace SMGame.Character
                             Console.WriteLine("N3入った！");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            if ((sceneNameP != SceneName.GameTitle))
+                            if ((sceneNameT != SceneName.GameTitle))
                             {
                                 boss.ReceiveDamage(this);
                             }
@@ -493,7 +494,7 @@ namespace SMGame.Character
                             Console.WriteLine("N4入った！");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            if ((sceneNameP != SceneName.GameTitle))
+                            if ((sceneNameT != SceneName.GameTitle))
                             {
                                 boss.ReceiveDamage(this);
                             }
@@ -767,6 +768,11 @@ namespace SMGame.Character
         public void GetNowScene(SceneName sceneName)
         {
             this.sceneNameP = sceneName;
+        }
+
+        public void GetNowSceneT(SceneName sceneName)
+        {
+            this.sceneNameT = sceneName;
         }
     }
 }
