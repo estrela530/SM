@@ -657,7 +657,7 @@ namespace SMGame.Character
 
             if (IsSkillHitFlag && skill1Combo == 0)
             {
-                skill1Combo++;
+                skill1Combo = 1;
             }
 
 
@@ -667,7 +667,7 @@ namespace SMGame.Character
                     Skill1MovePosition = this.position;
                     if (skillCoolTime >= 18)
                     {
-                        skill1Combo++;
+                        skill1Combo = 2;
                         skillCoolTime = 0;
                     }
                     break;
@@ -677,7 +677,7 @@ namespace SMGame.Character
                     if (skillCoolTime >= 18)
                     {
                         Console.WriteLine("来た！ ");
-                        skill1Combo++;
+                        skill1Combo = 3;
                         skillCoolTime = 0;
                     }
                     break;
@@ -686,7 +686,7 @@ namespace SMGame.Character
                     position = position + new Vector2(100, 400);
                     if (skillCoolTime >= 18)
                     {
-                        skill1Combo++;
+                        skill1Combo = 4;
                         skillCoolTime = 0;
                     }
                     break;
@@ -695,7 +695,7 @@ namespace SMGame.Character
                     position = position + new Vector2(400, 200);
                     if (skillCoolTime >= 18)
                     {
-                        skill1Combo++;
+                        skill1Combo = 5;
                         skillCoolTime = 0;
                     }
                     break;
@@ -704,7 +704,7 @@ namespace SMGame.Character
                     position = position + new Vector2(250, 600);
                     if (skillCoolTime >= 18)
                     {
-                        skill1Combo++;
+                        skill1Combo = 6;
                         skillCoolTime = 0;
                     }
                     break;
