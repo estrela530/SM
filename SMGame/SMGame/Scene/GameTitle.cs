@@ -36,23 +36,22 @@ namespace SMGame.Scene
             gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
 
-            boss = new Boss(new Vector2(Screen.Width / 2 - 125 / 2, Screen.Height - 250), gameDevice, 125, 200, true);
+            //boss = new Boss(new Vector2(Screen.Width / 2 - 125 / 2, Screen.Height - 250), gameDevice, 125, 200, true);
         }
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
             renderer.DrawTexture("titleT", Vector2.Zero);
-            boss.Draw(renderer);
-            player.Draw(renderer);
+            //boss.Draw(renderer);
+            //player.Draw(renderer);
             renderer.End();
         }
 
         public void Initialize()
         {
             IsEndFlag = false;
-
-            player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
-            player.GetNowSceneT(SceneName.GameTitle);
+            //player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
+            //player.GetNowScene(SceneName.GameTitle);
         }
 
         /// <summary>
@@ -77,8 +76,8 @@ namespace SMGame.Scene
         public void Update(GameTime gameTime)
         {
             sound.PlayBGM("title");
-            boss.Update(gameTime);
-            player.Update(gameTime);
+            //boss.Update(gameTime);
+            //player.Update(gameTime);
             if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One,Buttons.Start))
             {
                 IsEndFlag = true;
