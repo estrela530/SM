@@ -33,7 +33,7 @@ namespace SMGame.Scene
         public void Initialize()
         {
             IsEndFlag = false;
-
+            player.GetNowScene(SceneName.GamePlay);
             boss = new Boss(bossPosition, gameDevice, 344, 217);
             player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
         }
