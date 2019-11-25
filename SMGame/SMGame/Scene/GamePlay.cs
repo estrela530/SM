@@ -23,10 +23,12 @@ namespace SMGame.Scene
         //数値系　
         public Vector2 bossPosition = new Vector2(450, 420);
         public Vector2 playerFirstPosition = new Vector2(Screen.Width / 4, Screen.Height - 128);
+        private Sound sound;
 
         public GamePlay()
         {
             gameDevice = GameDevice.Instance();
+            sound = gameDevice.GetSound();
 
         }
 
@@ -73,6 +75,7 @@ namespace SMGame.Scene
             {
                 boss.GetPlayer(player);
             }
+            sound.PlayBGM("BossBGM");
             boss.Update(gameTime);
             player.Update(gameTime);
 
