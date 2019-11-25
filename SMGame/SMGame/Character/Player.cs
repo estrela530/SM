@@ -117,10 +117,10 @@ namespace SMGame.Character
             //スキルエフェクト
             skillmotion = new Motion(
                 new Range(0,9),
-                new CountDownTimer(1.0f));
+                new CountDownTimer(0.075f));
             for (int i = 0; i <10; i++)
             {
-                skillmotion.Add(i, new Rectangle(240 * i, 0, 240, 320));
+                skillmotion.Add(i, new Rectangle(0, 240*i, 320, 240));
             }
             #endregion
         }
@@ -165,6 +165,7 @@ namespace SMGame.Character
             PlayerAvoid();
             motion.Update(gameTime);
             motionRun.Update(gameTime);
+            skillmotion.Update(gameTime);
 
             #region Debug確認用
             //Console.WriteLine("HitFlag = " + AttackHitFlag);
@@ -295,7 +296,7 @@ namespace SMGame.Character
             //        x += 18 * i;
             //    }
             //}
-            renderer.DrawTexture("pipo-btleffect145", Vector2.Zero, motion.DrawingRange(), 0);
+            renderer.DrawTexture("pipo-btleffect145", Vector2.Zero, skillmotion.DrawingRange(), 0);
         }
 
         /// <summary>
