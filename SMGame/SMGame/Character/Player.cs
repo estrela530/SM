@@ -23,6 +23,7 @@ namespace SMGame.Character
         public bool IsJumpFlag = false;
         private Motion motion;
         private Motion motionRun;
+        private Motion skillmotion;
         private int width;
         private int height;
         private int attackPosition = 73;
@@ -112,6 +113,15 @@ namespace SMGame.Character
             {
                 motionRun.Add(i, new Rectangle(128 * i, 0, 128, 128));
             }
+
+            //スキルエフェクト
+            skillmotion = new Motion(
+                new Range(0,9),
+                new CountDownTimer(1.0f));
+            for (int i = 0; i <10; i++)
+            {
+                skillmotion.Add(i, new Rectangle(240 * i, 0, 240, 320));
+            }
             #endregion
         }
 
@@ -185,11 +195,8 @@ namespace SMGame.Character
         /// <param name="renderer"></param>
         public void Draw(Renderer renderer)
         {
-            if (sceneNameP == SceneName.GamePlay)
-            {
-                renderer.DrawTexture("playerHp", new Vector2(0, 88));
-                renderer.DrawTexture("playerHpBar", new Vector2(0, 88));
-            }
+            renderer.DrawTexture("playerHp", new Vector2(0, 88));
+            renderer.DrawTexture("playerHpBar", new Vector2(0, 88));
 
             if (ComboFlag)
             {
@@ -288,6 +295,7 @@ namespace SMGame.Character
             //        x += 18 * i;
             //    }
             //}
+            renderer.DrawTexture("pipo-btleffect145", Vector2.Zero, motion.DrawingRange(), 0);
         }
 
         /// <summary>
