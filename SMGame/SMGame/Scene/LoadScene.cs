@@ -61,7 +61,20 @@ namespace SMGame.Scene
                 {"idle-anim",path },
                 {"attack1-anim",path },
                 {"attack2-anim" ,path},
-                {"run-anim" ,path}
+                {"run-anim" ,path},
+                {"HpBack",path },
+                {"HpBackBar",path },
+                {"leg-tip",path },
+                {"leg-tip-damage",path },
+                {"leg-root",path },
+                {"leg-root-damage",path },
+                {"back",path },
+                {"Head",path },
+                {"leg-tip-back",path },
+                {"leg-root-back",path },
+                {"body-mid",path },
+                {"body-front",path },
+                {"body-back",path }
                 //ここから上追加
             };
 

@@ -177,14 +177,26 @@ namespace SMGame.Character
             //if (!AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
             //{
             //}
-            if (Input.GetLeftStickground(PlayerIndex.One).X == 0)
+
+            //向きらへん
+            if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == true
+                && !AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
             {
-                renderer.DrawTexture("idle-anim", position, motion.DrawingRange());
+                renderer.DrawTexture("idle-anim", position, motion.DrawingRange(),2);
+            }
+            else if (Input.GetLeftStickground(PlayerIndex.One).X == 0 && vecterFlag == false
+                && !AttackHitFlag && AvoidFlag && ComboFlag && IsJumpFlag && IsSkillHitFlag)
+            {
+                renderer.DrawTexture("idle-anim", position, motion.DrawingRange(), 2);
             }
 
-            if (Input.GetLeftStickground(PlayerIndex.One).X != 0)
+            if (Input.GetLeftStickground(PlayerIndex.One).X != 0 && vecterFlag == true)
             {
                 renderer.DrawTexture("run-anim", position, motionRun.DrawingRange());
+            }
+            else if (Input.GetLeftStickground(PlayerIndex.One).X != 0 && vecterFlag == false)
+            {
+                renderer.DrawTexture("run-anim", position, motionRun.DrawingRange(),2);
             }
 
             if (AvoidFlag && avoidCoolTime <= 20 /*|| true*/)
@@ -499,8 +511,11 @@ namespace SMGame.Character
         public void SkillAttack()
         {
             //Lボタン + Rボタン（弱攻撃）
-            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
-            //    && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            //if ((Input.IsButtonPress(PlayerIndex.One, Buttons.LeftShoulder) && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
+            //    || Input.IsButtonPress(PlayerIndex.One, Buttons.RightShoulder) && (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)))
+            //{
+            //    whichSkillCheck = 1;
+            //}
             if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftTrigger))
             {
                 whichSkillCheck = 1;
@@ -509,10 +524,15 @@ namespace SMGame.Character
             //Lボタン + Xボタン（強攻撃）
             //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)
             //    && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
-            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftTrigger))
-            //{
-            //    whichSkillCheck = 2;
-            //}
+            //    if ((Input.IsButtonPress(PlayerIndex.One, Buttons.LeftShoulder) && Input.IsButtonDown(PlayerIndex.One, Buttons.X))
+            //    || Input.IsButtonPress(PlayerIndex.One, Buttons.X) && (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder)))
+            //    {
+            //        whichSkillCheck = 1;
+            //    }
+            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder))
+            {
+                whichSkillCheck = 2;
+            }
 
             switch (whichSkillCheck)
             {
