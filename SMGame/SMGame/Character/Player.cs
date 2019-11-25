@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using SMGame.Device;
 using SMGame.Def;
 using SMGame.Util;
-
 using SMGame.Character.Legs;
 using SMGame.Scene;
 
@@ -54,14 +53,12 @@ namespace SMGame.Character
         private Vector2 stickDirection;
         private double stickAngle;
         private double angle = 0;
-
         private Leg1 leg1;
         private Leg2 leg2;
         private Leg3 leg3;
         private Leg4 leg4;
         private SceneManager sceneManager;
         private SceneName sceneNameP;
-
 
         /// <summary>
         /// 攻撃したときに次の入力がコンボに繋がるのか？カウンター
@@ -414,6 +411,7 @@ namespace SMGame.Character
                             Console.WriteLine("comboCnt" + comboCount);
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
+                            boss.ReceiveDamage(this);
 
                             if ((sceneNameP != SceneName.GameTitle))
                             {
