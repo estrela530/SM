@@ -50,9 +50,15 @@ namespace SMGame.Scene
         public void Initialize()
         {
             IsEndFlag = false;
+<<<<<<< HEAD
             player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
             player.GetNowScene(SceneName.GameTitle);
 
+=======
+
+            player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
+            player.GetNowSceneT(SceneName.GameTitle);
+>>>>>>> c232756561bf83cac27f76a2b012e64a554b08ce
         }
 
         /// <summary>
