@@ -411,11 +411,10 @@ namespace SMGame.Character
                             Console.WriteLine("comboCnt" + comboCount);
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamage(this);
-                            //leg1.Damage(5);
-                            //leg2.Damage(5);
-                            //leg3.Damage(5);
-                            //leg4.Damage(5);
+                            if ((sceneNameP != SceneName.GameTitle))
+                            {
+                                boss.ReceiveDamage(this);
+                            }
                         }
                         else if (!AttackHit(boss))
                         {
@@ -443,7 +442,10 @@ namespace SMGame.Character
                             Console.WriteLine("わーーーーーーーーーーー");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamage(this);
+                            if ((sceneNameP != SceneName.GameTitle))
+                            {
+                                boss.ReceiveDamage(this);
+                            }
                         }
                         if (weakAttackCounter > 0 && weakAttackCounter <= 30 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
@@ -464,7 +466,10 @@ namespace SMGame.Character
                             Console.WriteLine("N3入った！");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamage(this);
+                            if ((sceneNameP != SceneName.GameTitle))
+                            {
+                                boss.ReceiveDamage(this);
+                            }
                         }
                         if (weakAttackCounter > 0 && weakAttackCounter <= 30 && Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
                         {
@@ -485,7 +490,10 @@ namespace SMGame.Character
                             Console.WriteLine("N4入った！");
                             AttackHitFlag = true;
                             boss.NormalCollision(this);
-                            boss.ReceiveDamage(this);
+                            if ((sceneNameP != SceneName.GameTitle))
+                            {
+                                boss.ReceiveDamage(this);
+                            }
                         }
                         if (weakAttackCounter >= 0 && weakAttackCounter >= 60)
                         {
@@ -604,10 +612,10 @@ namespace SMGame.Character
             // {
             //     whichSkillCheck = 1;
             // }
-            if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder))
-            {
-                whichSkillCheck = 2;
-            }
+            //if (Input.IsButtonDown(PlayerIndex.One, Buttons.LeftShoulder))
+            //{
+            //    whichSkillCheck = 2;
+            //}
 
             switch (whichSkillCheck)
             {
@@ -621,14 +629,14 @@ namespace SMGame.Character
                     }
                     break;
 
-                case 2:
-                    if (AttackHit(boss))
-                    {
-                        IsSkillHitFlag = true;
-                        boss.NormalCollision(this);
-                        boss.Skill2ReceiveDamage(this);
-                    }
-                    break;
+                    //case 2:
+                    //    if (AttackHit(boss))
+                    //    {
+                    //        IsSkillHitFlag = true;
+                    //        boss.NormalCollision(this);
+                    //        boss.Skill2ReceiveDamage(this);
+                    //    }
+                    //    break;
             }
         }
 
