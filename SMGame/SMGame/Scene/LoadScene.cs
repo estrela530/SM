@@ -87,6 +87,8 @@ namespace SMGame.Scene
                 {"gameover",path },
                 {"gameclear",path },
                 {"pipo-btleffect145",path },
+                {"pipo-btleffect133",path },
+                {"black",path }
 
                 //ここから上追加
             };

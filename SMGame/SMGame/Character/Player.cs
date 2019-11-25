@@ -24,6 +24,7 @@ namespace SMGame.Character
         private Motion motion;
         private Motion motionRun;
         private Motion skillmotion;
+        private Motion skillGmotion;
         private int width;
         private int height;
         private int attackPosition = 73;
@@ -122,6 +123,15 @@ namespace SMGame.Character
             {
                 skillmotion.Add(i, new Rectangle(0, 240*i, 320, 240));
             }
+
+            //スキルエフェクト五右衛門
+            skillGmotion = new Motion(
+                new Range(0, 9),
+                new CountDownTimer(0.075f));
+            for (int i = 0; i < 9; i++)
+            {
+                skillGmotion.Add(i, new Rectangle(0, 240 * i, 320, 240));
+            }
             #endregion
         }
 
@@ -166,7 +176,7 @@ namespace SMGame.Character
             motion.Update(gameTime);
             motionRun.Update(gameTime);
             skillmotion.Update(gameTime);
-
+            skillGmotion.Update(gameTime);
             #region Debug確認用
             //Console.WriteLine("HitFlag = " + AttackHitFlag);
             //Console.WriteLine("weakAttackCounter" + weakAttackCounter);
@@ -198,6 +208,20 @@ namespace SMGame.Character
         {
             renderer.DrawTexture("playerHp", new Vector2(0, 88));
             renderer.DrawTexture("playerHpBar", new Vector2(0, 88));
+
+            
+
+            if (IsSkillHitFlag == true)
+            {
+                renderer.DrawTexture("black", Vector2.Zero);
+                renderer.DrawTexture("pipo-btleffect133", position, motion.DrawingRange());
+
+                
+            }
+            else if (IsSkillHitFlag == false)
+            {
+
+            }
 
             if (ComboFlag)
             {
