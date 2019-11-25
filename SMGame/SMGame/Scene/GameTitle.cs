@@ -22,6 +22,10 @@ namespace SMGame.Scene
         // サウンド
         private Sound sound;
         private Boss boss;
+        private Player player;
+
+        private GameDevice gameDevice;
+        public Vector2 playerFirstPosition = new Vector2(Screen.Width / 4, Screen.Height - 128);
 
         /// <summary>
         /// コンストラクタ
@@ -29,7 +33,7 @@ namespace SMGame.Scene
         public GameTitle()
         {
             IsEndFlag = false;
-            var gameDevice = GameDevice.Instance();
+            gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
 
             boss = new Boss(new Vector2(Screen.Width / 2 - 125 / 2, Screen.Height - 250), gameDevice, 125, 200, true);
@@ -39,12 +43,14 @@ namespace SMGame.Scene
             renderer.Begin();
             renderer.DrawTexture("titleT", Vector2.Zero);
             boss.Draw(renderer);
+            player.Draw(renderer);
             renderer.End();
         }
 
         public void Initialize()
         {
             IsEndFlag = false;
+            player = new Player(playerFirstPosition, gameDevice, 128, 128, boss);
         }
 
         /// <summary>
@@ -68,11 +74,9 @@ namespace SMGame.Scene
 
         public void Update(GameTime gameTime)
         {
-            //if(Input.IsButtonDown(PlayerIndex.One, Buttons.RightShoulder))
-            //{
-            //    sound.PlaySE("run");
-            //}
+            sound.PlayBGM("title");
             boss.Update(gameTime);
+            player.Update(gameTime);
             if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One,Buttons.Start))
             {
                 IsEndFlag = true;
