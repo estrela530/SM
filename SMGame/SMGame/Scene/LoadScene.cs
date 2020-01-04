@@ -48,7 +48,48 @@ namespace SMGame.Scene
                 {"kuribo-",path },
                 {"Title",path },
                 {"Ending",path },
-                {"backColor",path }
+                {"backColor",path },
+                {"kumo",path },
+                {"Face",path },
+                {"Body",path },
+                {"LegT",path },
+                {"LegU",path },
+                {"PlayerTatie",path },
+                {"Avoid",path },
+                {"Avoid2",path },
+                {"back" ,path },
+                {"idle-anim",path },
+                {"attack1-anim",path },
+                {"attack2-anim" ,path},
+                {"run-anim" ,path},
+                {"HpBack",path },
+                {"HpBackBar",path },
+                {"leg-tip",path },
+                {"leg-tip-damage",path },
+                {"leg-root",path },
+                {"leg-root-damage",path },
+                {"back",path },
+                {"Head",path },
+                {"leg-tip-back",path },
+                {"leg-tip-back-damage",path },
+                {"leg-root-back",path },
+                {"leg-root-back-damage",path },
+                {"body-mid",path },
+                {"body-front",path },
+                {"body-back",path },
+                {"VerticalBrade",path },
+                {"HorizontalBrade",path },
+                {"playerHp",path },
+                {"playerHpBar",path },
+                {"Log",path },
+                {"run1",path },
+                {"titleT",path },
+                {"gameover",path },
+                {"gameclear",path },
+                {"pipo-btleffect145",path },
+                {"pipo-btleffect133",path },
+                {"black",path }
+
                 //ここから上追加
             };
 
@@ -68,6 +109,8 @@ namespace SMGame.Scene
             // BGM読み込み対象データ
             string[,] data = new string[,]
             {
+                {"title",path },
+                {"BossBGM",path },
             };
 
             return data;
@@ -87,6 +130,14 @@ namespace SMGame.Scene
             // SE読み込み対象データ
             string[,] data = new string[,]
             {
+               {"attack",path },
+               {"final_attack",path },
+               {"attackS",path },
+               {"damage",path },
+               {"destruction1",path },
+               {"run",path },
+               {"avoid",path },
+               {"jump",path },
 
             };
 

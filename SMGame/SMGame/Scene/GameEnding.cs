@@ -33,7 +33,7 @@ namespace SMGame.Scene
         {
             renderer.Begin();
 
-            renderer.DrawTexture("Ending", Vector2.Zero);
+            renderer.DrawTexture("gameclear", Vector2.Zero);
 
             renderer.End();
         }
@@ -77,7 +77,7 @@ namespace SMGame.Scene
         /// <param name="gameTime">ゲーム時間</param>
         public void Update(GameTime gameTime)
         {
-            if (Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyTrigger(Keys.Space) || Input.IsButtonDown(PlayerIndex.One, Buttons.Start))
             {
                 IsEndFlag = true;
             }

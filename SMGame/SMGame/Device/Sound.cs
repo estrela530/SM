@@ -228,6 +228,30 @@ namespace SMGame.Device
             // 再生
             soundEffects[name].Play();
         }
+
+        public void LoadSEInstance(string name)
+        {
+            seInstances[name] = soundEffects[name].CreateInstance();
+        }
+
+        public void PlaySEInstance(string name)
+        {
+            // アセットが登録されているか？
+            Debug.Assert(seInstances.ContainsKey(name), ErrorMessage(name));
+
+            // 再生
+            seInstances[name].Play();
+        }
+
+
+        public void StopSEInstance(string name)
+        {
+            // アセットが登録されているか？
+            Debug.Assert(seInstances.ContainsKey(name), ErrorMessage(name));
+
+            // 再生
+            seInstances[name].Stop();
+        }
         #endregion WAV(SE:SoundEffect)関連
 
         #region WAVインスタンス関連

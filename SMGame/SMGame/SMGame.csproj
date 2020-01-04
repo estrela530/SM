@@ -41,6 +41,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Character\Boss.cs" />
+    <Compile Include="Character\IChara.cs" />
+    <Compile Include="Character\LegsManager.cs" />
+    <Compile Include="Character\Legs\Leg1.cs" />
+    <Compile Include="Character\Legs\Leg2.cs" />
+    <Compile Include="Character\Legs\Leg3.cs" />
+    <Compile Include="Character\Legs\Leg4.cs" />
+    <Compile Include="Character\Player.cs" />
+    <Compile Include="Collision.cs" />
     <Compile Include="Def\Screen.cs" />
     <Compile Include="Device\GameDevice.cs" />
     <Compile Include="Device\Loader.cs" />
@@ -60,6 +69,10 @@
     <Compile Include="Scene\SceneName.cs" />
     <Compile Include="Scene\SELoader.cs" />
     <Compile Include="Scene\TextureLoader.cs" />
+    <Compile Include="Util\CountDownTimer.cs" />
+    <Compile Include="Util\Motion.cs" />
+    <Compile Include="Util\Range.cs" />
+    <Compile Include="Util\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -72,7 +85,7 @@
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Properties\Content\Content.mgcb" />
+    <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup />

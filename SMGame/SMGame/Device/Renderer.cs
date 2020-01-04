@@ -134,6 +134,25 @@ namespace SMGame.Device
             spriteBatch.Draw(textures[name], position, Color.White * alpha);
         }
 
+        ///// <summary>
+        ///// 指定されたアセット名の絵を描く
+        ///// </summary>
+        ///// <param name="name">アセット名</param>
+        ///// <param name="position">描く位置</param>
+        ///// <param name="alpha">透明度（指定しなければそのまま1.0f）</param>
+        //public void DrawTexture(string name, Vector3 position, float alpha = 1.0f)
+        //{
+        //    // 登録されているキーがなければエラー表示
+        //    Debug.Assert(
+        //        textures.ContainsKey(name),
+        //        "アセット名を間違えていませんか？\n" +
+        //        "大文字小文字が間違ってませんか？\n" +
+        //        "LoadTextureで読み込んでますか？\n" +
+        //        "プログラムを確認してください");
+
+        //    spriteBatch.Draw(textures[name], position, Color.White * alpha);
+        //}
+
         public void DrawTexture(
             string assetName,
             Vector2 position,
@@ -199,6 +218,41 @@ namespace SMGame.Device
         }
 
         /// <summary>
+        /// 画像の描画（指定範囲）intを指定すれば上下左右反転できる
+        /// </summary>
+        /// <param name="name">アセット名</param>
+        /// <param name="position">位置</param>
+        /// <param name="rect">画像の切り出し範囲</param>
+        /// <param name="alpha">透明値</param>
+        public void DrawTexture(string name, Vector2 position,
+                                        Vector2 axis, Rectangle rectangle, float alpha, int sprite = 0)
+        {
+            // 登録されているキーがなければエラー表示
+            Debug.Assert(
+                textures.ContainsKey(name),
+                "アセット名を間違えていませんか？\n" +
+                "大文字小文字が間違ってませんか？\n" +
+                "LoadTextureで読み込んでますか？\n" +
+                "プログラムを確認してください");
+            spriteBatch.Draw(
+                textures[name],         // 画像
+                position,               // 位置
+                rectangle,              // 切り取り範囲
+                Color.White * alpha,    // 透過
+                0.0f,                   // 回転
+                axis,           // 回転軸の位置
+                new Vector2(1.0f),      // 拡大縮小
+                SpriteEffects.None + sprite,     // 表示反転効果
+                0.0f                    // スプライト表示深度
+                );
+            //spriteBatch.Draw(
+            //    textures[name], // 画像
+            //    position,       // 位置
+            //    rectangle,           // 矩形の指定範囲（左上の座標x,y,幅,高さ）
+            //    Color.White * alpha);
+        }
+
+        /// <summary>
         /// （拡大縮小対応版）画像の描画
         /// </summary>
         /// <param name="name">アセット名</param>
@@ -249,6 +303,25 @@ namespace SMGame.Device
                 axis,                   // 回転軸の位置
                 scale,                  // 拡大縮小
                 SpriteEffects.None,     // 表示反転効果
+                0.0f                    // スプライト表示深度
+                );
+        }
+        public void DrawTexture(string name, Vector2 position, Single rotate, Vector2 axis, Vector2 scale, SpriteEffects effects, float alpha = 1.0f)
+        {
+            Debug.Assert(textures.ContainsKey(name),
+                "アセット名を間違えていませんか？\n" +
+                "大文字小文字が間違ってませんか？\n" +
+                "LoadTextureで読み込んでますか？\n" +
+                "プログラムを確認してください\n");
+            spriteBatch.Draw(
+                textures[name],         // 画像
+                position,               // 位置
+                null,                   // 切り取り範囲
+                Color.White * alpha,    // 透過
+                rotate,                 // 回転
+                axis,                   // 回転軸の位置
+                scale,                  // 拡大縮小
+                effects,     // 表示反転効果
                 0.0f                    // スプライト表示深度
                 );
         }

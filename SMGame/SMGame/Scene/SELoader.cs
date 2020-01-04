@@ -43,6 +43,7 @@ namespace SMGame.Scene
                 // SEの読み込み
                 sound.LoadSE(resources[counter, 0],
                     resources[counter, 1]);
+                sound.LoadSEInstance(resources[counter, 0]);
                 // カウンタを1増やす
                 counter += 1;
                 // 読み込むものがあったので終了フラグをhufalseにする
